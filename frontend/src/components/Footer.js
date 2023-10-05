@@ -6,7 +6,9 @@ export default function Footer() {
         <div className='flex'>
             <div></div>
             <div></div>
-            <div></div>
+            <div>
+              ahdbfhsd
+            </div>
             <div></div>
         </div>
         {/* social media handles */}
