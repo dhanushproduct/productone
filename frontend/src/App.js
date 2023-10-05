@@ -13,8 +13,8 @@ import Dashboard from './pages/Dashboard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-+
-function App() {
+
+export default function App() {
   return (
     <div className="bg-[#efe9ff] min-h-screen w-full">
      
