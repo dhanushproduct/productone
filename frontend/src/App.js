@@ -1,18 +1,29 @@
 
 import './App.css';
-import Home from './components/Home';
-import Navbar from './components/Navbar';
+
+//Routing 
 import {Route, Routes} from "react-router-dom"
-import Signin from './components/Signin';
+// Pages
+import Landing from './pages/Landing';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+
+//Components
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+
++
 function App() {
   return (
     <div className="bg-[#efe9ff] min-h-screen w-full">
      
     <Navbar/>
     <Routes>
-      <Route element={<Home/>} path='/' />
-      <Route element={<Signin/>} path='/signin' />
+      <Route element={<Landing/>} path='/' />
+      <Route element={<Signup/>} path='/signup' />
+      <Route element={<Login/>} path='/login' />
+      <Route element={<Dashboard/>} path='/dashboard' />
     </Routes>
     <Footer/>
     </div>
