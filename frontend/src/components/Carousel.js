@@ -29,7 +29,7 @@ export default function Carousel() {
     }
   return (
     <div >
-      <OwlCarousel className="owl-theme" {...options}>
+      <OwlCarousel className="owl-theme -z-10" {...options}>
         <div className="item mx-3">
          <div className="w-full h-[50vh] m-4 p-3 px-3 bg-gray-500 rounded-lg">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ipsum blanditiis reiciendis accusamus doloribus. Perferendis tempora ipsa exercitationem iusto, quaerat mollitia quis. Labore minima aut, rerum nostrum alias quisquam incidunt.

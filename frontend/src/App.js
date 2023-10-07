@@ -23,12 +23,12 @@ export default function App() {
         <Navbar />
       </Headroom>
       <Carousel/>
-      {/* <Routes>
+      <Routes>
         <Route element={<Landing />} path="/" />
         <Route element={<Signup />} path="/signup" />
         <Route element={<Login />} path="/login" />
         <Route element={<Dashboard />} path="/dashboard" />
-      </Routes> */}
+      </Routes>
 
       <Footer />
     </div>
