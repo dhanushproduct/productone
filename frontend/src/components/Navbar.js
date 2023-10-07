@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-
+import "../styles/carousel.css"
 const navigation = [
   { name: "Sign up", to: "/signup", current: true },
   { name: "Log in", to: "/login", current: false },
@@ -18,7 +18,7 @@ function classNames(...classes) {
 export default function Example() {
   const [profile, setprofile] = useState(false);
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-800 navbb" >
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
