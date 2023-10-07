@@ -15,13 +15,16 @@ import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Carousel from "./components/Carousel";
+import HeroSection from "./components/HeroSection";
 
 export default function App() {
   return (
-    <div className="bg-[#efe9ff] min-h-screen w-full">
+    <div className="bg-[#efe9ff] min-h-screen w-full ">
       <Headroom>
         <Navbar />
       </Headroom>
+      <br />
+      <HeroSection/>
       <Carousel/>
       <Routes>
         <Route element={<Landing />} path="/" />
