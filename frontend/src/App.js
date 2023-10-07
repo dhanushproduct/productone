@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Carousel from "./components/Carousel";
+import HeroSection from "./components/HeroSection";
 
 export default function App() {
   return (
@@ -22,6 +23,8 @@ export default function App() {
       <Headroom>
         <Navbar />
       </Headroom>
+      <br />
+      <HeroSection/>
       <Carousel/>
       <Routes>
         <Route element={<Landing />} path="/" />
