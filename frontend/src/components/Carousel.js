@@ -32,13 +32,13 @@ export default function Carousel() {
   return (
     <OwlCarousel
       id="customer-testimonoals"
-      className="owl-carousel owl-theme"
+      className="owl-carousel owl-theme z-0"
       {...options}
     >
       {carouseldata.map((item, index) => (
         <div key={index}>
-          <div className="item h-full">
-            <div className="w-full h-[50vh] m-4 p-3 px-3 bg-gray-500 rounded-lg">
+          <div className="item h-full z-0">
+            <div className="w-full h-[50vh] m-4 p-3 px-3 bg-gray-500 z-0 rounded-lg">
               <br />
               <h1 className="text-[2rem]">{item.question}</h1>
               <br />
