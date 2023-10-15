@@ -3,7 +3,7 @@ import Phonemockup from './Phonemockup'
 
 export default function HeroSection() {
   return (
-    <div>
+    <div >
         <Phonemockup/>
     </div>
   )
