@@ -51,7 +51,7 @@ export default function App() {
           <Route path="page8" element={ <Profile8  formdetails={formdetails}/> } />
           <Route path="page9" element={ <Profile9  formdetails={formdetails}/> } />
           </Route>
-          <Route element={<Dashboard />} path="/dashboard" />
+          <Route element={<Dashboard formdetails={formdetails}/>} path="/dashboard" />
           <Route element={<Landing />} path="*" />
         </Routes>
       </div>
