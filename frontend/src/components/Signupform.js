@@ -44,7 +44,7 @@ export default function Signupform() {
           required
           {...register("email")}
         />
-        {/* <input
+        <input
           type="password"
           placeholder="Password"
           className="w-full p-2  border-b-4 border-2 text-gray-800 rounded-md my-2"
@@ -58,7 +58,7 @@ export default function Signupform() {
           className="w-full p-2  border-b-4 border-2 text-gray-800 rounded-md my-2"
           name="cpassword"
           required
-        /> */}
+        />
         <div className="py-3 hover:cursor-pointer">
           <input type="checkbox" name="terms" id="terms" required />
           <label htmlFor="terms" className="text-sm text-justify hover:cursor-pointer  px-2">
