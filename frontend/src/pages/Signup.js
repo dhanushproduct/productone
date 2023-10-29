@@ -1,80 +1,56 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-export default function Signup() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+import React, { useState } from "react";
+import Signupform from "../components/Signupform";
 
-  const submitform = (data) => {
-    console.log(data);
+export default function Signup() {
+  const [role, setRole] = useState("jobseeker");
+  
+  const toggleRole = () => {
+    setRole(role === "jobseeker" ? "employer" : "jobseeker");
   };
 
   return (
-    <div className=" flex items-center justify-center  m-[3rem]">
-      <div className="flex lg:flex-row flex-col  w-[90vw] h-full min-h-[80vh] justify-center items-center  bg-slate-100 border-2 p-3 rounded-lg shadow-2xl shadow-slate-400">
-        <div className=" lg:w-[40%] lg:h-full p-2">
-          <h1>
-            <span className="text-[4rem] uppercase text-blue-400">
-              Signup <br />
-            </span>
-            <span className=" text-[1.5rem] capitalize text-blue-600">
-              for greater experience
-            </span>
-          </h1>
-          <p className="p-4 text-justify">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
-            quam odio officiis necessitatibus minus optio magnam itaque vel
-            molestiae esse, quos voluptate quia minima ipsa, nobis fuga
-            temporibus excepturi quaerat!
-          </p>
+    <div className="flex lg:flex-row flex-col m-[3rem]  ">
+      <div className="lg:w-[50vw] w-[100%] p-2">
+        <h2 className="text-[2.5rem] font-bold">3 Reasons You'll Love Hired</h2>
+        <ul className="py-3">
+          <li className="list-disc text-lg">
+            Companies apply to you, not the other way around.
+          </li>
+          <li className="list-disc text-lg">
+            You can hide your info from current and former employers
+          </li>
+          <li className="list-disc text-lg">It’s free for candidates!</li>
+        </ul>
+        <h2 className="italic text-xl text-blue-950 font-semibold">
+          Get started and find your dream job today!
+        </h2>
+        <br /><br />
+      </div>
+      <div className="flex flex-col w-[100%] lg:w-[50vw] h-full min-h-[80vh] border-2 rounded-lg shadow-lg shadow-slate-300 bg-white">
+        <div className="flex flex-row h-[40px]">
+          <div
+            className={`w-[50%] text-center flex items-center justify-center h-full hover:cursor-pointer rounded-md ${role === "jobseeker" ? "bg-white" : "bg-gray-200"}`}
+            onClick={role === "jobseeker" ? null : toggleRole}
+          >
+            Jobseeker
+          </div>
+          <div
+            className={`w-[50%] text-center flex items-center justify-center h-full hover:cursor-pointer rounded-md ${role === "employer" ? "bg-white" : "bg-gray-200"}`}
+            onClick={role === "employer" ? null : toggleRole}
+          >
+            Employer
+          </div>
         </div>
-        <div className=" lg:w-[50%] h-full p-2">
+        <div className="h-full">
           <div className="m-4 relative">
-            <h1 className="py-2 text-lg uppercase">Create your account here</h1>
-            <form onSubmit={handleSubmit(submitform)}>
-              <input
-                type="text"
-                placeholder="Name"
-                className="w-full p-2 border-b-2 text-gray-800 rounded-md my-2"
-                name="name"
-                required
-                {...register("name")}
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full p-2 border-b-2 text-gray-800 rounded-md my-2"
-                name="Email"
-                required
-                {...register("email")}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full p-2 border-b-2 text-gray-800 rounded-md my-2"
-                name="password"
-                required
-                {...register("password")}
-              />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="w-full p-2 border-b-2 text-gray-800 rounded-md my-2"
-                name="cpassword"
-                required
-              />
-             
-              <div className="mt-6">
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full"
-                >
-                  Register
-                </button>
-              </div>
-            </form>
+            {
+              role === "jobseeker" &&
+            <Signupform />
+            }
+            {
+              role === "employer" && 
+              "Employer signin form"
+            }
           </div>
         </div>
       </div>
