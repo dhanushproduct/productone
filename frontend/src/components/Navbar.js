@@ -18,10 +18,10 @@ function classNames(...classes) {
 export default function Example() {
   const [profile, setprofile] = useState(false);
   return (
-    <div className="z-[999]">
+    <div className="z-[999] bg-white">
       <Disclosure
         as="nav"
-        className=" navbb border-b-2 z-[999] border-b-gray-300 shadow-lg"
+        className=" navbb   z-[999] "
       >
         {({ open }) => (
           <>
