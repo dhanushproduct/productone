@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState ,useContext} from "react";
 import { useForm } from "react-hook-form";
 // import { FcGoogle } from "react-icons/fc";
 // import { GrGithub } from "react-icons/gr";
 import { NavLink } from "react-router-dom";
+import { logincontext } from "../contexts/Logincontext";
 
 import { useNavigate } from "react-router-dom"
 export default function Loginform() {
   
+  const [currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,Signupadmin,Logoutuser] = useContext(logincontext)
+
  const navigate = useNavigate();
   const {
     register,
@@ -15,8 +18,9 @@ export default function Loginform() {
   } = useForm();
 
   const submitform = (data) => {
-    console.log(data);
-    navigate("/profile/page1")
+    console.log(data)
+    Loginuser(data)
+    // navigate("/profile/page1")
   };
   const [first, setfirst] = useState(true);
   const showpass = () => {

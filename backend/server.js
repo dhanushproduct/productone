@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const cors = require("cors")
+const loginRoute = require("./Routes/loginRoute")
 
 
 
@@ -17,9 +18,13 @@ app.use(express.json())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use('/api/users',userRoute)
+app.use('/api/users',loginRoute)
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI,{
+    dbName:"productone",
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
     .then(()=>{
         app.listen(process.env.PORT,() => {
             console.log('Database connected and Server Started!',process.env.PORT);

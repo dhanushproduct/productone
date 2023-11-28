@@ -39,19 +39,19 @@ export default function App() {
           <Route element={<Signup />} path="/signup" />
           <Route element={<Login />} path="/login" />
           <Route element={<Profileincom />} path="/profile" >
-          <Route path="page1" element={<Profile1 formdetails={formdetails}/>}  />
-          <Route path="page2" element={<Profile2 formdetails={formdetails}/>} />
-          <Route path="page3" element={<Profile3 formdetails={formdetails}/>} />
-          <Route path="page4" element={<Profile4 formdetails={formdetails}/>} />
-          <Route path="education-review" element={<Educationreview  formdetails={formdetails}/>}/>
-          <Route path="page5" element={<Profile5 formdetails={formdetails}/>} />
-          <Route path="job-review" element={ <JobReview  formdetails={formdetails}/> } />
-          <Route path="page6" element={ <Profile6  formdetails={formdetails}/> } />
-          <Route path="page7" element={ <Profile7  formdetails={formdetails}/> } />
-          <Route path="page8" element={ <Profile8  formdetails={formdetails}/> } />
-          <Route path="page9" element={ <Profile9  formdetails={formdetails}/> } />
+          <Route path="page1/:id" element={<Profile1 formdetails={formdetails}/>}  />
+          <Route path="page2/:id" element={<Profile2 formdetails={formdetails}/>} />
+          <Route path="page3/:id" element={<Profile3 formdetails={formdetails}/>} />
+          <Route path="page4/:id" element={<Profile4 formdetails={formdetails}/>} />
+          <Route path="education-review/:id" element={<Educationreview  formdetails={formdetails}/>}/>
+          <Route path="page5/:id" element={<Profile5 formdetails={formdetails}/>} />
+          <Route path="job-review/:id" element={ <JobReview  formdetails={formdetails}/> } />
+          <Route path="page6/:id" element={ <Profile6  formdetails={formdetails}/> } />
+          <Route path="page7/:id" element={ <Profile7  formdetails={formdetails}/> } />
+          <Route path="page8/:id" element={ <Profile8  formdetails={formdetails}/> } />
+          <Route path="page9/:id" element={ <Profile9  formdetails={formdetails}/> } />
           </Route>
-          <Route element={<Dashboard formdetails={formdetails}/>} path="/dashboard" />
+          <Route element={<Dashboard formdetails={formdetails}/>} path="/dashboard/:id" />
           <Route element={<Landing />} path="*" />
         </Routes>
       </div>
