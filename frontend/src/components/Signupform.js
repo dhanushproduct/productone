@@ -22,7 +22,7 @@ export default function Signupform() {
         We Bring Job Offers to You
       </h1>
       <p className="text-center ">
-        Join thousands of people who’ve found their dream job using Hired.
+        Join thousands of people who’ve found their dream job using aspireup.
       </p>
       <br />
       <hr />
@@ -62,7 +62,7 @@ export default function Signupform() {
         <div className="py-3 hover:cursor-pointer">
           <input type="checkbox" name="terms" id="terms" required />
           <label htmlFor="terms" className="text-sm text-justify hover:cursor-pointer  px-2">
-            By signing up you agree to Hired's Terms of Service and Privacy
+            By signing up you agree to aspireup's Terms of Service and Privacy
             Policy, which outline your rights and obligations with respect to
             your use of the Service and processing of your data.
           </label>
@@ -77,13 +77,13 @@ export default function Signupform() {
         </div>
 
         <div className="p-3 text-sm">
-          Hired is committed to protecting your data privacy. Permissions are
+          aspireup is committed to protecting your data privacy. Permissions are
           part of our continuing compliance efforts.
         </div>
         <div className="p-3 text-sm">
           We will provide reasonable accommodations with regard to use of this
           site. If you require an accommodation while using our site, please
-          contact <a href="#" className="text-blue-600 underline">support@hired.com</a> to request assistance.
+          contact <a href="#" className="text-blue-600 underline">support@aspireup.com</a> to request assistance.
         </div>
         <br />
         <hr />

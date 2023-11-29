@@ -11,7 +11,7 @@ export default function Signup() {
   return (
     <div className="flex lg:flex-row flex-col m-[3rem]  ">
       <div className="lg:w-[50vw] w-[100%] p-2">
-        <h2 className="text-[2.5rem] font-bold">3 Reasons You'll Love Hired</h2>
+        <h2 className="text-[2rem] font-bold">3 Reasons You'll Love aspireup</h2>
         <ul className="py-3">
           <li className="list-disc text-lg">
             Companies apply to you, not the other way around.

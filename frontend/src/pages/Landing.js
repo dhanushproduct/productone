@@ -15,23 +15,7 @@ export default function Landing() {
 
             </div>
         </div>
-        {/* carousel */}
-      <Carousel/>
-        <div>
-
-        </div>
-        {/* job category */}
-        <div>
-
-        </div>
-        {/* company scroller */}
-        <div>
-
-        </div>
-        {/* testimonial */}
-        <div>
-
-        </div>
+     
         
     </div>
   )

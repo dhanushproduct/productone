@@ -14,10 +14,15 @@ export default function Profile9({ formdetails }) {
   const skip = () => {};
 
   const onSubmit = (data) => {
-    formdetails.Survey = data;
+    formdetails.Survey = {
+      ...formdetails.Survey,
+      "What is your race? (Select all that apply)": Object.keys(data.race).filter(
+        (option) => data.race[option]
+      ),
+    };
     navigate("/dashboard")
     window.scroll(0, 0);
-    // console.log(data);
+    console.log(data);
   };
 
   return (
