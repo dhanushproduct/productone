@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useContext} from "react";
 import { useForm } from "react-hook-form";
-import { NavLink} from "react-router-dom"
+import { NavLink} from "react-router-dom";
+import { logincontext } from "../contexts/Logincontext";
 
 import { useNavigate } from "react-router-dom"
+import axios from 'axios'
 export default function Signupform() {
-  
+ 
+  const [currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,Signupadmin,Logoutuser] = useContext(logincontext)
  const navigate = useNavigate();
   const {
     register,
@@ -13,7 +16,8 @@ export default function Signupform() {
   } = useForm();
   const submitform = (data) => {
     console.log(data);
-    navigate("/login")
+    Signupuser(data);
+    // navigate("/login")
   };
   return (
     <div>
