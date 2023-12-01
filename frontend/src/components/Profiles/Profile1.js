@@ -14,7 +14,7 @@ export default function Profile1({ formdetails }) {
 
   const onFileSubmit = (data) => {
     formdetails.uploadedFile = file;
-    navigate("/profile/page2");
+    // navigate("/profile/page2/");
   };
 
   const validateFile = () => {

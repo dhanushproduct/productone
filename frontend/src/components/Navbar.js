@@ -30,11 +30,14 @@ export default function Example() {
               <div className="relative flex h-16 items-center justify-between">
                 <div className="flex flex-1 items-center justify-start sm:items-stretch sm:justify-start">
                   <div className="flex flex-shrink-0 items-center">
+                    <NavLink to="/">
+
                   <img
                   className="h-16 w-auto"
-                    src={logo}
-                    alt="Your Company"
+                  src={logo}
+                  alt="Your Company"
                   />
+                  </NavLink>
                 
                 </div>
                   </div>

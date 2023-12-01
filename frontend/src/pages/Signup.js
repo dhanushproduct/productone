@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Signupform from "../components/Signupform";
+import MailOtp from "../components/MailOtp"
 
 export default function Signup() {
   const [role, setRole] = useState("jobseeker");
