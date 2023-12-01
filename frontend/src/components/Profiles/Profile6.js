@@ -14,8 +14,7 @@ export default function Profile6({ formdetails }) {
   };
   const [iniskills, setiniskills] = useState(skills);
   const [skil, setskills] = useState([]);
-  const [newSkill, setNewSkill] = useState(""); // Track the new skill being typed
-
+  const [newSkill, setNewSkill] = useState("");
   const addlist = (value) => {
     if (!skil.includes(value)) setskills([...skil, value]);
     setiniskills(iniskills.filter((ite) => ite !== value));
@@ -34,7 +33,7 @@ export default function Profile6({ formdetails }) {
   const handleAddNewSkill = () => {
     if (newSkill.trim() !== "" && !skil.includes(newSkill)) {
       setskills([...skil, newSkill]);
-      setNewSkill(""); // Clear the input field
+      setNewSkill(""); 
     }
   };
 

@@ -26,7 +26,7 @@ export default function App() {
   const formdetails = {};
 
   return (
-    <div className="min-h-screen w-full bg-[#f4f5f7]">
+    <div className="min-h-screen w-full">
       <div>
         <Headroom>
           <Navbar />
