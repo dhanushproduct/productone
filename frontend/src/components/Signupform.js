@@ -1,14 +1,15 @@
-import React,{useContext} from "react";
+import React,{useContext, useState} from "react";
 import { useForm } from "react-hook-form";
 import { NavLink} from "react-router-dom";
 import { logincontext } from "../contexts/Logincontext";
-
-import { useNavigate } from "react-router-dom"
+import MailOtp from "./MailOtp";
 import axios from 'axios'
 export default function Signupform() {
  
   const [currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,Signupadmin,Logoutuser] = useContext(logincontext)
- const navigate = useNavigate();
+  const [viewmailotp, setviewotp] = useState(false);
+  const [data, setdata] = useState();
+ 
   const {
     register,
     handleSubmit,
@@ -16,12 +17,17 @@ export default function Signupform() {
   } = useForm();
   const submitform = (data) => {
     console.log(data);
-    Signupuser(data);
-    // navigate("/login")
+    setdata(data)
+    // Signupuser(data);
+    setviewotp(true);
+    
   };
   return (
     <div>
       {" "}
+      {
+        viewmailotp && <MailOtp viewmailotp={viewmailotp} setviewotp = {setviewotp} Signupuser = {Signupuser} data = {data} setdata = {setdata} />
+      }
       <h1 className="text-center py-3 text-2xl font-bold font-sans">
         We Bring Job Offers to You
       </h1>

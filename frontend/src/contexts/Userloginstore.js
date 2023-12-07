@@ -66,6 +66,7 @@ function Userloginstore({children}){
            const id = response.data.user._id;    
            localStorage.setItem("id",id)
            navigate(`/profile/page1/${id}`);
+           window.scroll(0, 0);
        }
      })
      .catch(err=>{

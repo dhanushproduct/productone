@@ -1,8 +1,40 @@
+import React from "react";
+import { IoMdClose } from "react-icons/io";
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-export default function Example() {
+export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, setdata}) {
+  const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""]);
+  // const [ setviewotp] = useContext(Otpcontext);
+  const inputRefs = useRef(
+    Array(6)
+      .fill(null)
+      .map(() => React.createRef())
+  );
+
+  const verifyOtp = () => {
+    alert("otp verified");
+    Signupuser(data);
+    
+  };
+
+  const handleOtpChange = (index, value) => {
+    const limitedValue = value.slice(0, 1);
+
+    setOtpValues((prevValues) => {
+      const newValues = [...prevValues];
+      newValues[index] = limitedValue;
+      return newValues;
+    });
+
+    if (index < inputRefs.current.length - 1 && limitedValue !== "") {
+      inputRefs.current[index + 1].current.focus();
+    }
+  };
+  const closemodal = () => {
+    setviewotp(false);
+  }
+
   const [open, setOpen] = useState(true)
 
   const cancelButtonRef = useRef(null)
@@ -34,41 +66,50 @@ export default function Example() {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
-                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
-                    </div>
-                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                      <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                        Deactivate account
-                      </Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          Are you sure you want to deactivate your account? All of your data will be permanently
-                          removed. This action cannot be undone.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                    onClick={() => setOpen(false)}
-                  >
-                    Deactivate
-                  </button>
-                  <button
-                    type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={() => setOpen(false)}
-                    ref={cancelButtonRef}
-                  >
-                    Cancel
-                  </button>
-                </div>
+              <div className=" w-[100%] h-[70%] bg-white border-2 rounded-xl p-8 text-center ">
+      <div className="flex w-full items-end justify-end">
+      <IoMdClose size={30} onClick={closemodal} />
+
+      </div>
+        <h1 className="">
+          Please enter the OTP sent to "mail".
+          <br />
+          Please enter the OTP sent to.{" "}
+          <span className="text-blue-500 font-semibold">Change</span>{" "}
+        </h1>
+
+        <form>
+          <div className="flex justify-center p-4 m-4">
+            {otpValues.map((value, index) => (
+              <input
+                key={index}
+                type="number"
+                name={`otp-${index}`}
+                id={`otp-${index}`}
+                className="border-b-2 m-2 md:m-4 w-8 text-center"
+                required
+                value={value}
+                onChange={(e) => handleOtpChange(index, e.target.value)}
+                ref={inputRefs.current[index]}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={verifyOtp}
+            className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-xl md:w-[40%] w-[100%] my-4 md:my-0"
+          >
+            Verify
+          </button>
+
+          <div className="py-4 my-2">
+            Not received your code?{" "}
+            <span className="font-bold text-blue-500">Resend code</span>
+          </div>
+        </form>
+      </div>
+    
               </Dialog.Panel>
             </Transition.Child>
           </div>
