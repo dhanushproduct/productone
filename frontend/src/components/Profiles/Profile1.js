@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 export default function Profile1({ formdetails }) {
+
+  const {id} = useParams();
+
   const { control, handleSubmit } = useForm();
   const [file, setFile] = useState(null); // State to store the selected file
   const navigate = useNavigate();
@@ -14,7 +17,7 @@ export default function Profile1({ formdetails }) {
 
   const onFileSubmit = (data) => {
     formdetails.uploadedFile = file;
-    // navigate("/profile/page2/");
+    navigate(`/profile/page2/${id}`);
   };
 
   const validateFile = () => {

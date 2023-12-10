@@ -2,6 +2,7 @@ import { logincontext } from "./Logincontext";
 import React,{useState,} from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import bcrypt from 'bcryptjs';
 
 
 function Userloginstore({children}){  
@@ -20,14 +21,21 @@ function Userloginstore({children}){
             //  console.log(response.message)
              if(response.status == 200)
              {
-                 setcurrentuser(response.data.user.username)
+                 setcurrentuser(response.data.user)
                  setUserloginStatus(true)
                  setloginerror("")
                  localStorage.setItem("token",response.data.token)
                  localStorage.setItem("type",response.data.type)
-                 const id = response.data.user._id;    
-                 localStorage.setItem("id",id)
-                 navigate(`/dashboard/${id}`);
+                // Hash the user ID
+                const id = response.data.user._id;
+                const hashedId = bcrypt.hashSync(id, 10); // You can adjust the number of salt rounds
+                const hashedIdWithoutSlashes = hashedId.replace(/\//g, '');
+
+
+
+                // Store the hashed ID in local storage
+                localStorage.setItem("id", hashedIdWithoutSlashes);                 
+                navigate(`/dashboard/${hashedIdWithoutSlashes}`);
              }
            })
            .catch(err=>{
@@ -58,14 +66,19 @@ function Userloginstore({children}){
       //  console.log(response.message)
        if(response.status == 200)
        {
+           console.log(response.data)
            setcurrentuser(response.data.user.name)
            setUserloginStatus(true)
            setloginerror("")
            localStorage.setItem("token",response.data.token)
            localStorage.setItem("type",response.data.type)
-           const id = response.data.user._id;    
-           localStorage.setItem("id",id)
-           navigate(`/profile/page1/${id}`);
+            // Hash the user ID
+          const id = response.data.user._id;
+          const hashedId = bcrypt.hashSync(id, 10); // You can adjust the number of salt rounds
+          const hashedIdWithoutSlashes = hashedId.replace(/\//g, '');
+            // Store the hashed ID in local storage
+          localStorage.setItem("id", hashedIdWithoutSlashes);                 
+           navigate(`/profile/page1/${hashedIdWithoutSlashes}`);
        }
      })
      .catch(err=>{
@@ -74,7 +87,7 @@ function Userloginstore({children}){
               alert('Account with this mail id already exists')
           }
           else{
-            alert('Login Error')
+            alert(err.response.data.message)
             setloginerror(err.response.data.message)
           }
         }
