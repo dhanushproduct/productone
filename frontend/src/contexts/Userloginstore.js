@@ -72,6 +72,7 @@ function Userloginstore({children}){
            setloginerror("")
            localStorage.setItem("token",response.data.token)
            localStorage.setItem("type",response.data.type)
+<<<<<<< HEAD
             // Hash the user ID
           const id = response.data.user._id;
           const hashedId = bcrypt.hashSync(id, 10); // You can adjust the number of salt rounds
@@ -79,6 +80,12 @@ function Userloginstore({children}){
             // Store the hashed ID in local storage
           localStorage.setItem("id", hashedIdWithoutSlashes);                 
            navigate(`/profile/page1/${hashedIdWithoutSlashes}`);
+=======
+           const id = response.data.user._id;    
+           localStorage.setItem("id",id)
+           navigate(`/profile/page1/${id}`);
+           window.scroll(0, 0);
+>>>>>>> fb0632148ade4c01bfbde6d887a237cadbcd166e
        }
      })
      .catch(err=>{
