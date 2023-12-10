@@ -67,15 +67,18 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, setd
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
               <div className=" w-[100%] h-[70%] bg-white border-2 rounded-xl p-8 text-center ">
-      <div className="flex w-full items-end justify-end">
+      <div className="flex w-full items-end justify-end py-4">
       <IoMdClose size={30} onClick={closemodal} />
 
       </div>
+
         <h1 className="">
-          Please enter the OTP sent to "mail".
-          <br />
-          Please enter the OTP sent to.{" "}
-          <span className="text-blue-500 font-semibold">Change</span>{" "}
+          Please enter the OTP sent to <br /> <b>
+             {data.email}  
+            </b>
+       
+         
+          <span className=" px-3 text-blue-500 font-semibold">Change</span>{" "}
         </h1>
 
         <form>
