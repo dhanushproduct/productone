@@ -60,10 +60,10 @@ const signup = async (req, res) => {
       'verified': false
     });
 
-    await newUser.save().then((result) => {
+    await newUser.save().then(async (result) => {
       sendOTPVerificationEmail(result, res);
-      let jwttoken = jwt.sign({ email: email }, "abcdefg", { expiresIn: 2000 });
-    res.status(200).json({ message: "User account signed up successfully", user: newUser, token: jwttoken, type: "user" });
+    //   let jwttoken = jwt.sign({ email: email }, "abcdefg", { expiresIn: 2000 });
+    // res.status(200).json({ message: "User account signed up successfully", user: newUser, token: jwttoken, type: "user" });
     });
     
   } catch (err) {

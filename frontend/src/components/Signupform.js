@@ -18,7 +18,7 @@ export default function Signupform() {
   const submitform = (data) => {
     console.log(data);
     setdata(data)
-    // Signupuser(data);
+    Signupuser(data);
     setviewotp(true);
     
   };
