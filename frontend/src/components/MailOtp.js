@@ -13,8 +13,12 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, setd
   );
 
   const verifyOtp = () => {
-    alert("otp verified");
-    Signupuser(data);
+    // alert("otp verified");
+    // Signupuser(data);
+    alert(otpValues.join(""))
+    
+
+
     
   };
 
