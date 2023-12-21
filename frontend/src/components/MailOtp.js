@@ -14,6 +14,7 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
 
   const verifyOtp = () => {
 
+
     let flag=1;
     for (let i = 0; i < otpValues.length; i++) {
       if (otpValues[i] === "") {
@@ -25,6 +26,11 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
     if(flag==0){
       return; 
     }
+
+    // alert("otp verified");
+    // Signupuser(data);
+    alert(otpValues.join(""))
+ 
 
     
     const writtenOtp = otpValues.join('');

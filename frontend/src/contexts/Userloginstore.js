@@ -101,6 +101,8 @@ function Userloginstore({children}){
     const Signupuser=(userobj)=>{
         console.log(userobj);
         //make http post request to server new user to local api
+
+        // request otp
         axios
         .post('http://localhost:4000/api/users/userssignup',userobj)
      .then(response=>{
@@ -133,6 +135,12 @@ function Userloginstore({children}){
         }
      })
 }
+
+const verifyotp = (userobj) => {
+  // to complete
+}
+
+
 
 const Signupadmin=(userobj)=>{
     console.log(userobj);

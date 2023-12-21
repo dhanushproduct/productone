@@ -175,10 +175,28 @@ const signup = async (req, res) => {
       return res.status(401).json({ error: "User with the same email already exists." });
     }
 
+
     const otpSent = await sendOTPVerificationEmail(email);
     console.log(otpSent);
     
     return res.status(200).json({message:'Successfully Sent Mail',otp:otpSent});
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new Users({
+      'name': name,
+      'email': email,
+      'password': hashedPassword,
+      'verified': false
+    });
+
+    await newUser.save().then(async (result) => {
+      sendOTPVerificationEmail(result, res);
+    //   let jwttoken = jwt.sign({ email: email }, "abcdefg", { expiresIn: 2000 });
+    // res.status(200).json({ message: "User account signed up successfully", user: newUser, token: jwttoken, type: "user" });
+    });
+
     
   } catch (err) {
         console.error("Error during signup:", err);
@@ -221,6 +239,7 @@ const verifyotp = async (req, res) => {
       password: hashedPassword,
     });
 
+    
     await newUser.save();
 
     // Create a new profile using the user's _id
