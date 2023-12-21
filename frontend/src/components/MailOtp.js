@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
-export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, setdata}) {
+export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp, setdata,verifyOTP}) {
   const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""]);
   // const [ setviewotp] = useContext(Otpcontext);
   const inputRefs = useRef(
@@ -13,13 +13,30 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, setd
   );
 
   const verifyOtp = () => {
+
+
+    let flag=1;
+    for (let i = 0; i < otpValues.length; i++) {
+      if (otpValues[i] === "") {
+        alert("Enter correct OTP");
+        flag=0;
+        break;
+      }
+    }
+    if(flag==0){
+      return; 
+    }
+
     // alert("otp verified");
     // Signupuser(data);
     alert(otpValues.join(""))
-    
+ 
 
-
     
+    const writtenOtp = otpValues.join('');
+
+    verifyOTP(data,writtenOtp);
+
   };
 
   const handleOtpChange = (index, value) => {
