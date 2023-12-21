@@ -46,7 +46,9 @@ const jobSchema = new Schema({
     type: String,
     required: true,
   },
-  city: String,
+  city: {
+    type: String,
+  },
   fromMonth: {
     type: String,
     required: true,
@@ -61,34 +63,39 @@ const jobSchema = new Schema({
 });
 
 const surveySchema = new Schema({
-  "What is your gender identity?": {
+  gender: {
     type: String,
     required: true,
   },
   race: {
-    Asian: Boolean,
-    "Native Hawaiian or Pacific Islander": Boolean,
-    "Black or African American": Boolean,
-    White: Boolean,
-    "Hispanic or Latinx": Boolean,
-    "Not listed": Boolean,
-    "Native American or Alaskan Native": Boolean,
+    isAsian: Boolean,
+    isPacific: Boolean,
+    isBlack: Boolean,
+    isWhite: Boolean,
+    isLatinx: Boolean,
+    isNotListed: Boolean,
+    isNativeAmerican: Boolean,
   },
-  "What is your sexual orientation?": {
+  sex: {
     type: String,
     required: true,
   },
-  "What is your age range?": {
+  age: {
     type: String,
     required: true,
   },
-  "What is your military status?": {
+  militarystatus: {
     type: String,
     required: true,
   },
 });
 
-const userSchema = new Schema({
+const profileSchema = new Schema({
+  UserId:{
+    type: Schema.Types.ObjectId, // Use ObjectId type for references
+    ref: 'User', // Replace 'User' with the actual model name referencing this UserId
+    required: true
+  },
   FullName: {
     FirstName: {
       type: String,
@@ -106,7 +113,6 @@ const userSchema = new Schema({
     },
     StreetAddress: {
       type: String,
-      required: true,
     },
     City: {
       type: String,
@@ -114,7 +120,6 @@ const userSchema = new Schema({
     },
     PinCode: {
       type: String,
-      required: true,
     },
   },
   education: [educationSchema],
@@ -127,7 +132,4 @@ const userSchema = new Schema({
 {
   timestamps: true,
 });
-
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+module.exports = mongoose.model('Profile',profileSchema)

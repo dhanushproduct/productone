@@ -1,7 +1,7 @@
 const Users = require('../Models/signupModel')
+const Profile = require('../Models/profileModel')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
-const UserOTPVerification = require("../Models/OtpverificationModel")
 const bcrypt = require("bcrypt")
 const nodemailer = require("nodemailer")
 
@@ -15,6 +15,130 @@ let transporter = nodemailer.createTransport({
   },
 
 })
+const { ObjectId } = mongoose.Types;
+
+function createEmptyEducation() {
+  return {
+    levelofedu: "",
+    field: "",
+    school: "",
+    city: "",
+    country: "",
+    fromMonth: "",
+    fromYear: "",
+  };
+}
+
+
+function createEmptyJob() {
+  return {
+    jobTitle: "",
+    company: "",
+    country: "",
+    city: "",
+    fromMonth: "",
+    fromYear: "",
+    description: "",
+    toMonth: "",
+    toYear: "",
+  };
+}
+
+function createEmptySurvey() {
+  return {
+    gender: "",
+    race: {
+      isAsian: false,
+      isPacific: false,
+      isBlack: false,
+      isWhite: false,
+      isLatinx: false,
+      isNotListed: false,
+      isNativeAmerican: false,
+    },
+    sex: "",
+    age: "",
+    militarystatus: "",
+  };
+}
+
+function createEmptyProfile(userId) {
+  return {
+    UserId: userId,
+    FullName: {
+      FirstName: "",
+      LastName: "",
+    },
+    Location: {
+      Country: "",
+      StreetAddress: "",
+      City: "",
+      PinCode: "",
+    },
+    education: [createEmptyEducation()],
+    jobs: [createEmptyJob()],
+    skills: [],
+    currentRole: "",
+    WorkLocation: [],
+    Survey: createEmptySurvey(),
+  };
+}
+
+// function createEmptyProfile(userId) {
+//   return {
+//     UserId: userId,
+//     FullName: {
+//       FirstName: "",
+//       LastName: "",
+//     },
+//     Location: {
+//       Country: "",
+//       StreetAddress: "",
+//       City: "",
+//       PinCode: "",
+//     },
+//     education: [{
+//       levelofedu: "",
+//       field: "",
+//       school: "",
+//       city: "",
+//       country: "",
+//       fromMonth: "",
+//       fromYear: "",
+//     }],
+//     jobs: [{
+//       jobTitle: "",
+//       company: "",
+//       country: "",
+//       city: "",
+//       fromMonth: "",
+//       fromYear: "",
+//       description: "",
+//       toMonth: "",
+//       toYear: "",
+//     }],
+//     skills: [],
+//     currentRole: "",
+//     WorkLocation: [],
+//     Survey: {
+//       gender: "",
+//       race: {
+//         isAsian: false,
+//         isPacific: false,
+//         isBlack: false,
+//         isWhite: false,
+//         isLatinx: false,
+//         isNotListed: false,
+//         isNativeAmerican: false,
+//       },
+//       sex: "",
+//       age: "",
+//       militarystatus: "",
+//     }
+//   };
+// }
+
+
 
 
 const login = async (req, res) => {
@@ -33,7 +157,7 @@ const login = async (req, res) => {
       return res.status(401).json({ error: "Enter correct email/password" });
     }
 
-    let jwttoken = jwt.sign({ email: email }, "abcdefg", { expiresIn: 2000 });
+    let jwttoken = jwt.sign({ email: email }, "abcdefg", { expiresIn:  '2h' });
     res.status(200).json({ message: "User logged in successfully", user: existingUser, token: jwttoken, type: "user" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -43,12 +167,19 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
   try {
-    const { email, name, password } = req.body;
+    const { name, email, password } = req.body;
+    // const {otp} = req.body.otp;
     const existingUser = await Users.findOne({ 'email': email });
 
     if (existingUser) {
       return res.status(401).json({ error: "User with the same email already exists." });
     }
+
+
+    const otpSent = await sendOTPVerificationEmail(email);
+    console.log(otpSent);
+    
+    return res.status(200).json({message:'Successfully Sent Mail',otp:otpSent});
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -65,40 +196,31 @@ const signup = async (req, res) => {
     //   let jwttoken = jwt.sign({ email: email }, "abcdefg", { expiresIn: 2000 });
     // res.status(200).json({ message: "User account signed up successfully", user: newUser, token: jwttoken, type: "user" });
     });
+
     
   } catch (err) {
+        console.error("Error during signup:", err);
     res.status(500).json({ error: err.message });
   }
 }
 
 
-const sendOTPVerificationEmail = async ({ _id, email}, res) => {
+const sendOTPVerificationEmail = async (email) => {
+  console.log('Hello')
   try{
     const otp = `${Math.floor(100000 + Math.random() * 900000)}`;
+
     const mailoptions = {
       from: process.env.AUTH_EMAIL,
       to: email,
       subject: "Verify your email",
       html: `<p> Enter <b> ${otp} </b> in the app to verify your email address and complete the signup</p> <p> This code <b> expires in 1 hour</b></p>`
     }
+
     const salt = 10;
     const hashedotp = await bcrypt.hash(otp, salt);
-    const newotpverification = new UserOTPVerification({
-      userId: _id,
-      otp: hashedotp,
-      createdAt: Date.now(),
-      expiresAt: Date.now() + 3600000,
-    });
-    await newotpverification.save();
     await transporter.sendMail(mailoptions);
-    res.status(202).json({
-      status: "pending",
-      message: "verification otp email sent",
-      data: {
-        userId: _id,
-        email,
-      }
-    })
+    return otp;
   }
   catch(err){
     res.status(500).json({ error: err.message })
@@ -107,62 +229,49 @@ const sendOTPVerificationEmail = async ({ _id, email}, res) => {
 
 
 const verifyotp = async (req, res) => {
-  try{
-    let {userId, otp} = req.body;
-    if(!userId || !otp){
-      throw Error("Empty otp details are not allowed");
-    }
-    else{
-      const user = await UserOTPVerification.findOne({userId });
-      if(!user){
-        throw new Error("Account record doesnt exist or verified already")
-      } 
-      else{
-        const {expiresAt} = user;
-        const hashedotp = user.otp;
+  try {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-        if(expiresAt < Date.now()){
-          await user.deleteMany({userId});
-          throw new Error("Code has expired, please request again");
-        }
-        else{
-          const validotp = bcrypt.compare(otp, hashedotp);
-          if(!validotp){
-            throw new Error("Invalid otp");
-          }
-          else{
-            await Users.updateOne({_id: userId}, {verified: true});
-            await user.deleteOne({userId});
-            res.status(200).json({
-              status: "verified",
-              message: "user email verified sucessfully"
-            })
-          }
-        }
-      }
-    }
+    const newUser = new Users({
+      name: name,
+      email: email,
+      password: hashedPassword,
+    });
+
+    
+    await newUser.save();
+
+    // Create a new profile using the user's _id
+    // const newProfile = new Profile(createEmptyProfile(newUser._id));
+    
+    // Save the new profile
+    // await newProfile.save();
+
+    return res.status(200).json({ message: 'Successfully verified', user: newUser });
+  } catch (err) {
+    console.error("Error during user registration:", err);
+    res.status(500).json({ error: err.message });
   }
-  catch(err){
-    res.status(500).json({message: err.message})
-  }
-}
+};
+
 
 const resendotp = async (req, res) => {
-  try{
-    let {userId, email} = req.body;
-    if(!userId || !email){
-      throw Error("Empty otp details are not allowed");
-    }
-    else{
-      await UserOTPVerification.deleteOne({userId});
-      sendOTPVerificationEmail({_id: userId, email}, res);
-    }
+  // try{
+  //   let {userId, email} = req.body;
+  //   if(!userId || !email){
+  //     throw Error("Empty otp details are not allowed");
+  //   }
+  //   else{
+  //     await UserOTPVerification.deleteOne({userId});
+  //     sendOTPVerificationEmail({_id: userId, email}, res);
+  //   }
      
-  }catch(err){
-    res.status(500).json({
-      status: "failed",
-      message: err.message
-    })
-  }
+  // }catch(err){
+  //   res.status(500).json({
+  //     status: "failed",
+  //     message: err.message
+  //   })
+  // }
 }
 module.exports = {login,signup, verifyotp, resendotp}
