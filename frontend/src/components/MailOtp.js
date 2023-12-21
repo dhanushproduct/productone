@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
-export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, setdata}) {
+export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp, setdata,verifyOTP}) {
   const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""]);
   // const [ setviewotp] = useContext(Otpcontext);
   const inputRefs = useRef(
@@ -13,9 +13,24 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, setd
   );
 
   const verifyOtp = () => {
-    alert("otp verified");
-    Signupuser(data);
+
+    let flag=1;
+    for (let i = 0; i < otpValues.length; i++) {
+      if (otpValues[i] === "") {
+        alert("Enter correct OTP");
+        flag=0;
+        break;
+      }
+    }
+    if(flag==0){
+      return; 
+    }
+
     
+    const writtenOtp = otpValues.join('');
+
+    verifyOTP(data,writtenOtp);
+
   };
 
   const handleOtpChange = (index, value) => {
@@ -67,15 +82,18 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, setd
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
               <div className=" w-[100%] h-[70%] bg-white border-2 rounded-xl p-8 text-center ">
-      <div className="flex w-full items-end justify-end">
+      <div className="flex w-full items-end justify-end py-4">
       <IoMdClose size={30} onClick={closemodal} />
 
       </div>
+
         <h1 className="">
-          Please enter the OTP sent to "mail".
-          <br />
-          Please enter the OTP sent to.{" "}
-          <span className="text-blue-500 font-semibold">Change</span>{" "}
+          Please enter the OTP sent to <br /> <b>
+             {data.email}  
+            </b>
+       
+         
+          <span className=" px-3 text-blue-500 font-semibold">Change</span>{" "}
         </h1>
 
         <form>

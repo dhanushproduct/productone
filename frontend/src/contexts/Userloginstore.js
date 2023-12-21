@@ -10,6 +10,8 @@ function Userloginstore({children}){
     const [currentuser,setcurrentuser]=useState({})
     const [loginerror,setloginerror]=useState("")
     const [UserloginStatus,setUserloginStatus]=useState(false)
+    const [otp,setOtp]=useState('')
+
     const navigate = useNavigate();
 
     const Loginuser=(userobj)=>{
@@ -57,6 +59,45 @@ function Userloginstore({children}){
            })
     }
 
+    const VerifyOTP = (userobj,writtenOtp) =>{
+      console.log(userobj);
+      console.log(writtenOtp);
+      if(writtenOtp == otp){
+      //make http post request to server new user to local api
+      axios
+      .post('http://localhost:4000/api/users/verifyOTP',userobj)
+   .then(response=>{
+    //  console.log(response.message)
+     if(response.status == 200)
+     {
+         console.log(response.data);
+         const id = response.data.user._id;    
+         localStorage.setItem("id",id)
+         navigate(`/profile/page1/${id}`);
+        window.scroll(0, 0);
+     }
+   })
+   .catch(err=>{
+    if(err.response){
+        if(err.response.status == 401){
+            alert('Account with this mail id already exists')
+        }
+        else{
+          alert(err.response.data.message)
+          setloginerror(err.response.data.message)
+        }
+      }
+      else{
+        alert('Unexpected Error')
+      }
+   })
+  }
+  else{
+    alert('Enter Correct OTP');
+  }
+    }
+
+    
     const Signupuser=(userobj)=>{
         console.log(userobj);
         //make http post request to server new user to local api
@@ -66,26 +107,15 @@ function Userloginstore({children}){
       //  console.log(response.message)
        if(response.status == 200)
        {
-           console.log(response.data)
-           setcurrentuser(response.data.user.name)
-           setUserloginStatus(true)
-           setloginerror("")
-           localStorage.setItem("token",response.data.token)
-           localStorage.setItem("type",response.data.type)
-<<<<<<< HEAD
-            // Hash the user ID
-          const id = response.data.user._id;
-          const hashedId = bcrypt.hashSync(id, 10); // You can adjust the number of salt rounds
-          const hashedIdWithoutSlashes = hashedId.replace(/\//g, '');
-            // Store the hashed ID in local storage
-          localStorage.setItem("id", hashedIdWithoutSlashes);                 
-           navigate(`/profile/page1/${hashedIdWithoutSlashes}`);
-=======
-           const id = response.data.user._id;    
-           localStorage.setItem("id",id)
-           navigate(`/profile/page1/${id}`);
-           window.scroll(0, 0);
->>>>>>> fb0632148ade4c01bfbde6d887a237cadbcd166e
+           console.log(response.data);
+           setOtp(response.data.otp)
+           return response.data;
+// =======
+//            const id = response.data.user._id;    
+//            localStorage.setItem("id",id)
+//            navigate(`/profile/page1/${id}`);
+//            window.scroll(0, 0);
+// >>>>>>> fb0632148ade4c01bfbde6d887a237cadbcd166e
        }
      })
      .catch(err=>{
@@ -144,7 +174,7 @@ const Signupadmin=(userobj)=>{
         alert('You have succesfully logged out')
     }
     return (
-        <logincontext.Provider value={[currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,Signupadmin,Logoutuser]}>{children}</logincontext.Provider>
+        <logincontext.Provider value={[currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,VerifyOTP,Signupadmin,Logoutuser]}>{children}</logincontext.Provider>
     )
 }
 export default Userloginstore
