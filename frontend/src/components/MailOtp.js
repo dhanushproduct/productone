@@ -39,22 +39,47 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
 
   };
 
-  const handleOtpChange = (index, value) => {
-    const limitedValue = value.slice(0, 1);
-
-    setOtpValues((prevValues) => {
-      const newValues = [...prevValues];
-      newValues[index] = limitedValue;
-      return newValues;
-    });
-
-    if (index < inputRefs.current.length - 1 && limitedValue !== "") {
-      inputRefs.current[index + 1].current.focus();
+  const handleOtpChange = (index, value, isBackspace) => {
+    if (isBackspace && index > 0 && value === "") {
+      inputRefs.current[index - 1].current.focus();
+    } else 
+    {
+      const limitedValue = value.slice(0, 1);
+  
+      setOtpValues((prevValues) => {
+        const newValues = [...prevValues];
+        newValues[index] = limitedValue;
+        return newValues;
+      });
+  
+      if (index < inputRefs.current.length - 1 && limitedValue !== "") {
+        inputRefs.current[index + 1].current.focus();
+      } 
     }
   };
   const closemodal = () => {
     setviewotp(false);
   }
+
+  const handlepaste = (e) => {
+    e.preventDefault(); 
+    const pastedData = e.clipboardData.getData('text/plain');
+    const otpArray = pastedData.split('').slice(0, 6);
+    
+    setOtpValues((prevValues) => {
+      const newValues = [...prevValues];
+      otpArray.forEach((value, index) => {
+        if (inputRefs.current[index]) {
+          newValues[index] = value;
+        }
+      });
+
+      return newValues;
+    });
+    if (inputRefs.current[inputRefs.current.length - 1]) {
+      inputRefs.current[inputRefs.current.length - 1].current.focus();
+    }
+  };
 
   const [open, setOpen] = useState(true)
 
@@ -88,7 +113,7 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
               <div className=" w-[100%] h-[70%] bg-white border-2 rounded-xl p-8 text-center ">
-      <div className="flex w-full items-end justify-end py-4">
+      <div className="flex w-full items-end justify-end py-4 cursor-pointer">
       <IoMdClose size={30} onClick={closemodal} />
 
       </div>
@@ -102,7 +127,7 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
           <span className=" px-3 text-blue-500 font-semibold">Change</span>{" "}
         </h1>
 
-        <form>
+        <form onPaste={handlepaste}>
           <div className="flex justify-center p-4 m-4">
             {otpValues.map((value, index) => (
               <input
@@ -113,7 +138,11 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
                 className="border-b-2 m-2 md:m-4 w-8 text-center"
                 required
                 value={value}
-                onChange={(e) => handleOtpChange(index, e.target.value)}
+                onChange={(e) => handleOtpChange(index, e.target.value)}  onKeyDown={(e) => {
+                  if (e.key === "Backspace" && value === "") {
+                    handleOtpChange(index, "", true);
+                  }
+                }}
                 ref={inputRefs.current[index]}
               />
             ))}

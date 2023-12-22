@@ -11,8 +11,8 @@ export default function Profile2({formdetails }) {
   } = useForm();
   const submitform = (data) => {
     formdetails.FullName = data;
-    // console.log(data);
-    navigate("/profile/page3")
+    console.log(data);
+    // navigate("/profile/page3")
     window.scroll(0, 0)
   };
   return (

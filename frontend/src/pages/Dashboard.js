@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import TimelineComponent from "../components/EduExp";
 import { GoPlus } from "react-icons/go";
 import { LuPencilLine } from "react-icons/lu";
@@ -6,8 +6,12 @@ import Recognitions from "../components/Recognitions";
 import Projects from "../components/Projects";
 import { Button } from "keep-react";
 import { FaPlus, FaRegPaperPlane  } from "react-icons/fa6";
+import { logincontext } from "../contexts/Logincontext";
+import {useParams} from 'react-router-dom'
 
 const Layout = () => {
+  const [currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,VerifyOTP,Signupadmin,Logoutuser, getprofile, dashboard, setdashboard] = useContext(logincontext);
+  const { id } = useParams();
   const skills = [
     "JavaScript",
     "Python",
@@ -25,6 +29,10 @@ const Layout = () => {
     "MongoDB",
     "MySQL",
   ];
+  useEffect(() => {
+    getprofile(id);
+   
+  }, []);
   return (
     <div className="flex md:flex-row flex-col justify-around  min-h-screen  gap-4 bg-gray-100 p-4">
       <div className=" rounded-md md:w-[65%] w-[100%] ">
