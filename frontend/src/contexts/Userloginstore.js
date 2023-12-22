@@ -11,6 +11,7 @@ function Userloginstore({children}){
     const [loginerror,setloginerror]=useState("")
     const [UserloginStatus,setUserloginStatus]=useState(false)
     const [otp,setOtp]=useState('')
+    const [dashboard, setdashboard] = useState();
 
     const navigate = useNavigate();
 
@@ -141,6 +142,21 @@ const verifyotp = (userobj) => {
 }
 
 
+const getprofile = (id) => {
+
+  axios.get(`http://localhost:4000/api/users/getprofile/${id}`).then(
+    response => {
+      if(response.status == 200){
+        setdashboard(response.data.existing_profile);
+        // console.log(response.data.existing_profile);
+      }
+    }
+  ).catch(err => {
+    alert("user error");
+  })
+}
+
+
 
 const Signupadmin=(userobj)=>{
     console.log(userobj);
@@ -182,7 +198,7 @@ const Signupadmin=(userobj)=>{
         alert('You have succesfully logged out')
     }
     return (
-        <logincontext.Provider value={[currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,VerifyOTP,Signupadmin,Logoutuser]}>{children}</logincontext.Provider>
+        <logincontext.Provider value={[currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,VerifyOTP,Signupadmin,Logoutuser, getprofile, dashboard, setdashboard]}>{children}</logincontext.Provider>
     )
 }
 export default Userloginstore
