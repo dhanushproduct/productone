@@ -3,14 +3,29 @@ import WorkLocation from "../../asserts/WorkLocation";
 import { GrAdd } from "react-icons/gr";
 import { useNavigate, useParams } from "react-router-dom";
 import { ImBin } from "react-icons/im";
+import axios from "axios";
 
 export default function Profile8({ formdetails }) {
   const {id} = useParams();
   const navigate = useNavigate();
-  const submitbut = () => {
-    navigate(`/profile/page9/${id}`);
+  const submitbut = async () => {
     formdetails.WorkLocation = skil;
-    console.log(formdetails);
+
+    const reqbody = {
+      WorkLocation: formdetails.WorkLocation
+    }
+    console.log(reqbody)
+    try{
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      console.log(response)
+      if(response.status == 200){
+        console.log(response.body);
+        // Navigate to the next page or wherever you want
+        navigate(`/profile/page9/${id}`);     
+       }
+    }catch(err){
+      console.log(err);
+    }
     window.scroll(0, 0);
   };
   const [iniskills, setiniskills] = useState(WorkLocation);

@@ -3,15 +3,32 @@ import skills from "../../asserts/Skills";
 import { GrAdd } from "react-icons/gr";
 import { useNavigate ,useParams} from "react-router-dom";
 import { ImBin } from "react-icons/im";
+import axios from "axios";
 
 export default function Profile6({ formdetails }) {
 
   const {id} = useParams();
   const navigate = useNavigate();
-  const submitbut = () => {
+  const submitbut = async () => {
     navigate(`/profile/page7/${id}`);
-    formdetails.skills = skil;
-    console.log(formdetails);
+    // formdetails.skills = skil;
+    // console.log(formdetails);
+    const reqbody = {
+      skills : skil
+    }
+
+    try{
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      console.log(response)
+      if(response.status == 200){
+        console.log(response.body);
+        // Navigate to the next page or wherever you want
+        navigate(`/profile/page7/${id}`);     
+       }
+    }catch(err){
+      console.log(err);
+    }
+
     window.scroll(0, 0);
   };
   const [iniskills, setiniskills] = useState(skills);

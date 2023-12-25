@@ -38,11 +38,12 @@ export default function Profile4({formdetails}) {
     if (!formdetails.education) {
       formdetails.education = [];
     }
-
     formdetails.education.push(educationDetails);
+    const education = []
+    education.push(educationDetails);
     console.log(educationDetails);
     const reqbody = {
-      education : educationDetails
+      education : formdetails.education
     }
     try{
       const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
