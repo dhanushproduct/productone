@@ -77,23 +77,7 @@ function createEmptyProfile(userId) {
 }
   const [dash, setdash] = useState(createEmptyProfile);
   const { id } = useParams();
-  const skills = [
-    "JavaScript",
-    "Python",
-    "Java",
-    "C++",
-    "HTML/CSS",
-    "Node.js",
-    "React.js",
-    "Angular",
-    "Vue.js",
-    "Django",
-    "Flask",
-    "Express.js",
-    "Spring Boot",
-    "MongoDB",
-    "MySQL",
-  ];
+  
   useEffect(() => {
     const getprofile = async () => {
       try {
@@ -130,7 +114,7 @@ function createEmptyProfile(userId) {
                 1232 Followers - 500+ Connections
               </h2>
             </div>
-            <p className="text-gray-500 text-md">Current Role</p>
+            <p className="text-gray-500 text-md">{dash.currentRole}</p>
           </div>
           <div className="px-6 flex gap-4">
             <Button size="sm" color="info" pill={true}>
@@ -166,7 +150,7 @@ function createEmptyProfile(userId) {
           <div className="space-y-2 w-full p-4 bg-white rounded-xl">
             <h3 className="text-lg font-medium text-gray-900 p-4">Skills</h3>
             <ul className="flex flex-wrap gap-4 pl-4 text-gray-500 list-none">
-              {skills.map((item, key) => (
+              {dash.skills.map((item, key) => (
                 <li
                   className=" border-gray-100 hover:bg-slate-100 hover:shadow-lg hover:scale-110 duration-300 cursor-pointer border-2 p-2 rounded-2xl"
                   key={key}

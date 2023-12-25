@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 import { logincontext } from "../contexts/Logincontext";
 import MailOtp from "./MailOtp";
@@ -15,22 +15,25 @@ export default function Signupform() {
     Signupadmin,
     Logoutuser,
   ] = useContext(logincontext);
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const [viewmailotp, setviewotp] = useState(false);
   const [data, setdata] = useState();
-
+ const [showpassword, setshowpassword] = useState("password");
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-
+  const showpass = () => {
+    const type = showpassword === "password"? "text": "password"
+    setshowpassword(type)
+  }
   const submitform = (data) => {
-    console.log(data);
+    // console.log(data);
 
     setdata(data)
-    Signupuser(data);
 
     setviewotp(true);
     Signupuser(data);
@@ -77,20 +80,45 @@ export default function Signupform() {
           {...register("email")}
         />
         <input
-          type="password"
+
+          type={showpassword}
           placeholder="Password"
           className="w-full p-2  border-b-4 border-2 text-gray-800 rounded-md my-2"
           name="password"
           required
           {...register("password")}
         />
-        <input
+        {/* <input
           type="password"
+          placeholder="Password"
+          className={`w-full p-2 border-b-4 border-2 text-gray-800 rounded-md my-2 ${
+            errors.password ? "border-red-500" : "" // Add red border for invalid passwords
+          }`}
+          name="password"
+          required
+          {...register("password", {
+            required: "Password is required",
+            pattern: {
+              value:
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+              message: "Invalid password format",
+            },
+          })}
+        />
+        {errors.password && (
+          <p className="text-red-500">{errors.password.message}</p>
+        )} */}
+        <input
+          type={showpassword}
           placeholder="Confirm Password"
           className="w-full p-2  border-b-4 border-2 text-gray-800 rounded-md my-2"
           name="cpassword"
           required
         />
+         <div className="py-2">
+            <input type="checkbox" name="show" id="show" onChange={showpass} />
+            <label htmlFor="show" className="text-sm text-justify hover:cursor-pointer  px-2"> Show password</label>
+          </div>
         <div className="py-3 hover:cursor-pointer">
           <input type="checkbox" name="terms" id="terms" required />
           <label
