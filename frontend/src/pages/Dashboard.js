@@ -1,16 +1,21 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TimelineComponent from "../components/EduExp";
 import { GoPlus } from "react-icons/go";
 import { LuPencilLine } from "react-icons/lu";
 import Recognitions from "../components/Recognitions";
 import Projects from "../components/Projects";
 import { Button } from "keep-react";
-import { FaPlus, FaRegPaperPlane  } from "react-icons/fa6";
-import { logincontext } from "../contexts/Logincontext";
-import {useParams} from 'react-router-dom'
+import { FaPlus, FaRegPaperPlane } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const Layout = () => {
-  const [currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,VerifyOTP,Signupadmin,Logoutuser, getprofile, dashboard, setdashboard] = useContext(logincontext);
+  const [dash, setdash] = useState({
+    FullName: {
+      FirstName: "",
+      LastName: "",
+    },
+  });
   const { id } = useParams();
   const skills = [
     "JavaScript",
@@ -30,10 +35,20 @@ const Layout = () => {
     "MySQL",
   ];
   useEffect(() => {
-    getprofile(id);
-    console.log(dashboard);
-   
-  }, []);
+    const getprofile = async () => {
+      try {
+        await axios
+          .get(`http://localhost:4000/api/users/getprofile/${id}`)
+          .then((response) => {
+            setdash(response.data.existing_profile);
+          })
+          .catch((err) => console.log(err));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getprofile();
+  }, [id]);
   return (
     <div className="flex md:flex-row flex-col justify-around  min-h-screen  gap-4 bg-gray-100 p-4">
       <div className=" rounded-md md:w-[65%] w-[100%] ">
@@ -42,9 +57,9 @@ const Layout = () => {
           <div className="w-[20vh] h-[20vh] bg-slate-400 rounded-full relative mt-[-15vh]"></div>
           <div className="flex flex-row justify-between items-center p-6">
             <div className=" font-bold text-gray-900">
-              <div className="text-xl">
-                
-              DHANUSH GUMMADAVALLI
+              <div className="text-xl uppercase">
+                {dash.FullName.FirstName} {dash.FullName.LastName}
+                {/* DHANUSH GUMMADAVALLI */}
               </div>
               <h2 className="text-lg font-medium text-gray-900">
                 Software Engineer
@@ -56,12 +71,9 @@ const Layout = () => {
             <p className="text-gray-500 text-md">Current Role</p>
           </div>
           <div className="px-6 flex gap-4">
-            <Button size="sm"  color="info" pill={true}>
-              <div  className="flex gap-1 justify-center items-center">
-
-              <FaPlus size={15} /> <p className="text-lg">
-                 Follow
-                </p>
+            <Button size="sm" color="info" pill={true}>
+              <div className="flex gap-1 justify-center items-center">
+                <FaPlus size={15} /> <p className="text-lg">Follow</p>
               </div>
             </Button>
             {/* <Button size="sm"  color="info" pill={true}>
