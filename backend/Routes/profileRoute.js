@@ -1,7 +1,9 @@
 const express = require('express')
-const {editprofile} = require('../Controllers/profileController')
+const {editprofile, getProfile} = require('../Controllers/profileController')
 const router = express.Router()
 
 router.post('/editprofile/:id', editprofile)
+
+router.get('/getprofile/:id', getProfile)
 
 module.exports = router

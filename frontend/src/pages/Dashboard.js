@@ -10,12 +10,72 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const Layout = () => {
-  const [dash, setdash] = useState({
+  
+function createEmptyEducation() {
+  return {
+    levelofedu: "1",
+    field: "1",
+    school: "1",
+    city: "1",
+    country: "1",
+    fromMonth: "1",
+    fromYear: "1",
+  };
+}
+
+function createEmptyJob() {
+  return {
+    jobTitle: "1",
+    company: "1",
+    country: "1",
+    city: "1",
+    fromMonth: "1",
+    fromYear: "1",
+    description: "1",
+    toMonth: "1",
+    toYear: "1",
+  };
+}
+
+function createEmptySurvey() {
+  return {
+    gender: "1",
+    race: {
+      isAsian: true,
+      isPacific: false,
+      isBlack: false,
+      isWhite: false,
+      isLatinx: false,
+      isNotListed: false,
+      isNativeAmerican: false,
+    },
+    sex: "1",
+    age: "1",
+    militarystatus: "1",
+  };
+}
+
+function createEmptyProfile(userId) {
+  return {
     FullName: {
       FirstName: "",
       LastName: "",
     },
-  });
+    Location: {
+      Country: "",
+      StreetAddress: "",
+      City: "",
+      PinCode: "",
+    },
+    education: [createEmptyEducation()],
+    jobs: [createEmptyJob()],
+    skills: [],
+    currentRole: "",
+    WorkLocation: [],
+    Survey: createEmptySurvey(),
+  };
+}
+  const [dash, setdash] = useState(createEmptyProfile);
   const { id } = useParams();
   const skills = [
     "JavaScript",
@@ -38,7 +98,7 @@ const Layout = () => {
     const getprofile = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/api/users/getprofile/${id}`)
+          .get(`http://localhost:4000/api/profile/getprofile/${id}`)
           .then((response) => {
             setdash(response.data.existing_profile);
           })
@@ -48,6 +108,7 @@ const Layout = () => {
       }
     };
     getprofile();
+    console.log("working")
   }, [id]);
   return (
     <div className="flex md:flex-row flex-col justify-around  min-h-screen  gap-4 bg-gray-100 p-4">
@@ -62,7 +123,8 @@ const Layout = () => {
                 {/* DHANUSH GUMMADAVALLI */}
               </div>
               <h2 className="text-lg font-medium text-gray-900">
-                Software Engineer
+                {/* Software Engineer */}
+                {dash.Location.Country}
               </h2>
               <h2 className=" text-sm font-medium text-gray-700">
                 1232 Followers - 500+ Connections

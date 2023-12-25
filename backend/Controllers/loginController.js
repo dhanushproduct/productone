@@ -80,59 +80,6 @@ function createEmptyProfile(userId) {
   };
 }
 
-// function createEmptyProfile(userId) {
-//   return {
-//     UserId: userId,
-//     FullName: {
-//       FirstName: "",
-//       LastName: "",
-//     },
-//     Location: {
-//       Country: "",
-//       StreetAddress: "",
-//       City: "",
-//       PinCode: "",
-//     },
-//     education: [{
-//       levelofedu: "",
-//       field: "",
-//       school: "",
-//       city: "",
-//       country: "",
-//       fromMonth: "",
-//       fromYear: "",
-//     }],
-//     jobs: [{
-//       jobTitle: "",
-//       company: "",
-//       country: "",
-//       city: "",
-//       fromMonth: "",
-//       fromYear: "",
-//       description: "",
-//       toMonth: "",
-//       toYear: "",
-//     }],
-//     skills: [],
-//     currentRole: "",
-//     WorkLocation: [],
-//     Survey: {
-//       gender: "",
-//       race: {
-//         isAsian: false,
-//         isPacific: false,
-//         isBlack: false,
-//         isWhite: false,
-//         isLatinx: false,
-//         isNotListed: false,
-//         isNativeAmerican: false,
-//       },
-//       sex: "",
-//       age: "",
-//       militarystatus: "",
-//     }
-//   };
-// }
 
 const login = async (req, res) => {
   try {
@@ -254,27 +201,7 @@ const verifyotp = async (req, res) => {
   }
 };
 
-const getProfile = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const existing_profile = await Profile.findOne({ UserId: id });
 
-    if (!existing_profile) {
-      return res.status(404).json({ message: "user not found", id: id });
-    }
-
-    return res.status(200).json({
-      message: "successfully retrieved",
-      existing_profile: existing_profile,
-      id: id,
-    });
-  } catch (err) {
-    console.error("Error in getProfile:", err);
-    return res
-      .status(500)
-      .json({ message: "internal server error", error: err });
-  }
-};
 
 
 
@@ -296,4 +223,4 @@ const resendotp = async (req, res) => {
   //   })
   // }
 };
-module.exports = { login, signup, verifyotp, resendotp, getProfile};
+module.exports = { login, signup, verifyotp, resendotp};
