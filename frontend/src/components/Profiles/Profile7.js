@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import currentrole from "../../asserts/Currentrole";
 import { useNavigate ,useParams} from "react-router-dom";
+import axios from "axios";
 
 export default function Profile7({ formdetails }) {
 
@@ -11,12 +12,27 @@ export default function Profile7({ formdetails }) {
     setSelectedRole(event.target.value);
   };
 
-  const saveRoleAndContinue = () => {
+  const saveRoleAndContinue = async () => {
     if (selectedRole) {
       formdetails.currentRole = selectedRole;
-      console.log(formdetails);
+
+      const reqbody = {
+        currentRole : selectedRole
+      }
+    try{
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      console.log(response)
+      if(response.status == 200){
+        console.log(response.body);
+        // Navigate to the next page or wherever you want
+        // navigate(`/profile/page7/${id}`);     
+        navigate(`/profile/page8/${id}`);
+       }
+    }catch(err){
+      console.log(err);
+    }
+      // console.log(formdetails);
       window.scroll(0, 0);
-      navigate(`/profile/page8/${id}`);
     }
   };
 

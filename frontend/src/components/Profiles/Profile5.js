@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import countryData from "../../asserts/Countrylist";
 import Months from "../../asserts/Months";
-import { useNavigate ,useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function Profile5({ formdetails }) {
-
-  const {id} = useParams();
+  const { id } = useParams();
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
   const {
@@ -36,37 +35,39 @@ export default function Profile5({ formdetails }) {
       jobDetails.toMonth = data.toMonth;
       jobDetails.toYear = data.toYear;
     }
-
-    // Add the job details to the formdetails object
     if (!formdetails.jobs) {
       formdetails.jobs = [];
     }
     formdetails.jobs.push(jobDetails);
+    // Add the job details to the formdetails object
     // console.log(
     //   formdetails.jobs
     // )
     const reqbody = {
-      jobs : data
-    }
-    try{
-      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
-      console.log(response)
-      if(response.status == 200){
+      jobs: formdetails.jobs,
+    };
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/api/profile/editprofile/${id}`,
+        reqbody
+      );
+      console.log(response);
+      if (response.status == 200) {
         console.log(response.body);
         // Navigate to the next page or wherever you want
-        navigate(`/profile/job-review/${id}`);     
-       }
-    }catch(err){
+        navigate(`/profile/job-review/${id}`);
+      }
+    } catch (err) {
       console.log(err);
     }
 
-    window.scroll(0, 0)
+    window.scroll(0, 0);
   };
 
   const skip = () => {
     // Navigate to the next page or wherever you want
     navigate("/profile/page6");
-    window.scroll(0, 0)
+    window.scroll(0, 0);
   };
 
   return (
@@ -230,31 +231,30 @@ export default function Profile5({ formdetails }) {
               Description
             </label>
             <div className="quill-container">
-            <textarea
-              className="w-full p-2 border-b-4 border-2 text-gray-800 rounded-md my-2"
-              name="description"
-              rows="4"
-              {...register("description")}
-            ></textarea>
+              <textarea
+                className="w-full p-2 border-b-4 border-2 text-gray-800 rounded-md my-2"
+                name="description"
+                rows="4"
+                {...register("description")}
+              ></textarea>
             </div>
           </div>
           <br />
           <div className="flex flex-row-reverse justify-between">
-
-          <button
-            type="submit"
-            className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-xl md:w-[40%] w-[100%] my-4 md:my-0"
+            <button
+              type="submit"
+              className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-xl md:w-[40%] w-[100%] my-4 md:my-0"
             >
-            Save & Continue
-          </button>
-        <button
-          className="text-blue-800 hover:text-blue-900 font-semibold p-2 md:m-2 flex justify-center items-center gap-1"
-          onClick={skip}
-          >
-          Skip
-        </button>
+              Save & Continue
+            </button>
+            <button
+              className="text-blue-800 hover:text-blue-900 font-semibold p-2 md:m-2 flex justify-center items-center gap-1"
+              onClick={skip}
+            >
+              Skip
+            </button>
           </div>
-            </form>
+        </form>
       </div>
     </div>
   );
