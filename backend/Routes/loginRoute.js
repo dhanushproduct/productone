@@ -7,6 +7,5 @@ router.post('/userslogin',login)
 router.post('/verifyOTP', verifyotp)
 router.post("/resendotp", resendotp)
 router.get('/getprofile/:id', getProfile)
-router.put('/editprofile/:id', editprofile)
 
 module.exports = router

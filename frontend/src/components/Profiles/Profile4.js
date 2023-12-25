@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import countryData from "../../asserts/Countrylist";
 import Months from "../../asserts/Months";
-import { useNavigate} from "react-router-dom"
+import { useNavigate,useParams} from "react-router-dom"
+import axios from "axios";
 
 export default function Profile4({formdetails}) {
+  const {id} = useParams();
   const navigate = useNavigate();
   const {
     register,
@@ -16,7 +18,7 @@ export default function Profile4({formdetails}) {
   const checked = () => {
     setcheck(!check);
   };
-  const submited = (data) => {
+  const submited = async (data) => {
     const educationDetails = {
       levelofedu: data.levelofedu,
       field: data.field,
@@ -36,10 +38,25 @@ export default function Profile4({formdetails}) {
     if (!formdetails.education) {
       formdetails.education = [];
     }
+
     formdetails.education.push(educationDetails);
+    console.log(educationDetails);
+    const reqbody = {
+      education : educationDetails
+    }
+    try{
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      console.log(response)
+      if(response.status == 200){
+        console.log(response.body);
+        navigate(`/profile/page4/${id}`);
+      }
+    }catch(err){
+      console.log(err);
+    }
 
     // console.log(formdetails);
-    navigate("/profile/education-review");
+    navigate(`/profile/education-review/${id}`);
     window.scroll(0, 0)
   
   }

@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const cors = require("cors")
 const loginRoute = require("./Routes/loginRoute")
+const profileRoute = require("./Routes/profileRoute")
 
 
 
@@ -19,6 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/users',loginRoute)
+
+app.use('/api/profile',profileRoute)
+
 
 mongoose.connect(process.env.MONGO_URI,{
     dbName:"productone",

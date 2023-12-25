@@ -31,6 +31,7 @@ const Layout = () => {
   ];
   useEffect(() => {
     getprofile(id);
+    console.log(dashboard);
    
   }, []);
   return (

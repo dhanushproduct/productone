@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 export default function JobReview({ formdetails }) {
+  const {id} = useParams();
   const navigate = useNavigate();
 
   // Initialize jobData as an empty array if it's undefined in formdetails
@@ -13,7 +14,7 @@ export default function JobReview({ formdetails }) {
 
   const editJob = (index) => {
     // Navigate to the job editing page (e.g., Profile6) with the index of the job item to edit
-    navigate(`/profile/page6`);
+    navigate(`/profile/page6/${id}`);
   };
 
   const deleteJob = (index) => {
@@ -84,13 +85,13 @@ export default function JobReview({ formdetails }) {
         <div className="flex justify-between">
           <button
             className="text-blue-800 hover:text-blue-900 font-semibold p-2 m-2 flex justify-center items-center gap-1"
-            onClick={() => navigate("/profile/page5")}
+            onClick={() => navigate(`/profile/page5/${id}`)}
           >
             <IoIosAddCircleOutline size={20} /> Add Job
           </button>
           <button
             className="bg-blue-800 hover:bg-blue-900 duration-300 text-white font-bold py-2 px-4 rounded-xl"
-            onClick={() => navigate("/profile/page6")}
+            onClick={() => navigate(`/profile/page6/${id}`)}
           >
             Save & Continue
           </button>

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import WorkLocation from "../../asserts/WorkLocation";
 import { GrAdd } from "react-icons/gr";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ImBin } from "react-icons/im";
 
 export default function Profile8({ formdetails }) {
+  const {id} = useParams();
   const navigate = useNavigate();
   const submitbut = () => {
-    navigate("/profile/page9");
+    navigate(`/profile/page9/${id}`);
     formdetails.WorkLocation = skil;
     console.log(formdetails);
     window.scroll(0, 0);

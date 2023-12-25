@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import countryData from "../../asserts/Countrylist";
 import Months from "../../asserts/Months";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useParams} from "react-router-dom";
+import axios from "axios";
 
 export default function Profile5({ formdetails }) {
+
+  const {id} = useParams();
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
   const {
@@ -13,7 +16,7 @@ export default function Profile5({ formdetails }) {
     formState: { errors },
   } = useForm();
   const [check, setcheck] = useState(false);
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // Process the data and update the formdetails object
     // Similar to what you did in Profile4
     // For example:
@@ -42,9 +45,21 @@ export default function Profile5({ formdetails }) {
     // console.log(
     //   formdetails.jobs
     // )
+    const reqbody = {
+      jobs : data
+    }
+    try{
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      console.log(response)
+      if(response.status == 200){
+        console.log(response.body);
+        // Navigate to the next page or wherever you want
+        navigate(`/profile/job-review/${id}`);     
+       }
+    }catch(err){
+      console.log(err);
+    }
 
-    // Navigate to the next page or wherever you want
-    navigate("/profile/job-review");
     window.scroll(0, 0)
   };
 
