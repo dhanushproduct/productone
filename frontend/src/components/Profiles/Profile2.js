@@ -1,18 +1,34 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate} from "react-router-dom"
+import { useNavigate,useParams} from "react-router-dom"
+import axios from "axios";
 
-export default function Profile2({formdetails }) {
+export default function Profile2({formdetails}) {
+
+  const {id} = useParams();
+
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const submitform = (data) => {
+  const submitform = async (data) => {
     formdetails.FullName = data;
     console.log(data);
-    // navigate("/profile/page3")
+    const reqbody = {
+      FullName : data
+    }
+    try{
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      console.log(response)
+      if(response.status == 200){
+        console.log(response.body);
+        navigate(`/profile/page3/${id}`)
+      }
+    }catch(err){
+      console.log(err);
+    }
     window.scroll(0, 0)
   };
   return (

@@ -1,9 +1,12 @@
 import React, {useState} from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import countryData from "../../asserts/Countrylist";
+import axios from "axios";
 
 export default function Profile3({formdetails}) {
+
+  const {id} = useParams();
   const navigate = useNavigate();
   
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -12,10 +15,24 @@ export default function Profile3({formdetails}) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const submitform = (data) => {
+  const submitform = async (data) => {
     formdetails.Location = data;
+    console.log(data)
+    console.log(formdetails)
+    const reqbody = {
+      Location : data
+    }
+    try{
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      console.log(response)
+      if(response.status == 200){
+        console.log(response.body);
+        navigate(`/profile/page4/${id}`);
+      }
+    }catch(err){
+      console.log(err);
+    }
     // console.log(data);
-    navigate("/profile/page4");
     window.scroll(0, 0)
   };
   return (

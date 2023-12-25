@@ -276,22 +276,7 @@ const getProfile = async (req, res) => {
   }
 };
 
-const editprofile = async (req, res) => {
-  try {
-    const details = req.body;
-    const id = req.params.id;
-    const updatedUser = await Profile.updateOne({ UserId: id }, { $set: details });
 
-    if (updatedUser.nModified === 0) {
-      return res.status(404).json({ message: "User not found", id: id });
-    }
-
-    return res.status(200).json({ message: "Success", updated: updatedUser, details: details });
-  } catch (err) {
-    console.error('Error in editprofile:', err);
-    return res.status(500).json({ message: "Internal server error", error: err });
-  }
-};
 
 
 const resendotp = async (req, res) => {
@@ -311,4 +296,4 @@ const resendotp = async (req, res) => {
   //   })
   // }
 };
-module.exports = { login, signup, verifyotp, resendotp, getProfile, editprofile };
+module.exports = { login, signup, verifyotp, resendotp, getProfile};

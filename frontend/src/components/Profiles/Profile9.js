@@ -1,9 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import surveyQuestions from "../../asserts/VolDec";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 export default function Profile9({ formdetails }) {
+  const {id} = useParams();
   const navigate = useNavigate();
   const {
     register,
@@ -20,7 +21,7 @@ export default function Profile9({ formdetails }) {
         (option) => data.race[option]
       ),
     };
-    navigate("/dashboard")
+    navigate(`/dashboard/${id}`)
     window.scroll(0, 0);
     console.log(data);
   };

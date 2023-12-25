@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import currentrole from "../../asserts/Currentrole";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useParams} from "react-router-dom";
 
 export default function Profile7({ formdetails }) {
+
+  const {id} = useParams();
   const [selectedRole, setSelectedRole] = useState("");
   const navigate = useNavigate();
   const handleRoleChange = (event) => {
@@ -14,7 +16,7 @@ export default function Profile7({ formdetails }) {
       formdetails.currentRole = selectedRole;
       console.log(formdetails);
       window.scroll(0, 0);
-      navigate("/profile/page8");
+      navigate(`/profile/page8/${id}`);
     }
   };
 
