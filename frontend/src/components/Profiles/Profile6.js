@@ -5,10 +5,11 @@ import { useNavigate ,useParams} from "react-router-dom";
 import { ImBin } from "react-icons/im";
 
 export default function Profile6({ formdetails }) {
+
   const {id} = useParams();
   const navigate = useNavigate();
   const submitbut = () => {
-    navigate(`/profile/page7/id`);
+    navigate(`/profile/page7/${id}`);
     formdetails.skills = skil;
     console.log(formdetails);
     window.scroll(0, 0);

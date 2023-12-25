@@ -30,10 +30,12 @@ const Layout = () => {
     "MySQL",
   ];
   useEffect(() => {
+    console.log("Component Mounted");
     getprofile(id);
+    console.log("After getprofile");
     console.log(dashboard);
-   
-  }, []);
+  }, [id]);
+  
   return (
     <div className="flex md:flex-row flex-col justify-around  min-h-screen  gap-4 bg-gray-100 p-4">
       <div className=" rounded-md md:w-[65%] w-[100%] ">

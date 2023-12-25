@@ -9,10 +9,14 @@ const editprofile = async (req, res) => {
       const key = Object.keys(details)[0];
       console.log(key);
       var updatedUser;
-      if(key == 'jobs'){
+      if(key=='education' || key == 'jobs'){
+        const existingUser = await Profile.findOne({UserId: id});
+        if(existingUser.education[0].levelofedu == '1'){
+          
+        }
         updatedUser = await Profile.updateOne(
             { UserId: id },
-            { $push: { key: details[key] } }
+            { $push: { [key]: details[key] } }
           );
       }
       else{
