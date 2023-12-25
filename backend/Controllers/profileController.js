@@ -9,15 +9,15 @@ const editprofile = async (req, res) => {
       const key = Object.keys(details)[0];
       console.log(key);
       var updatedUser;
-      if(key == 'jobs'){
-        updatedUser = await Profile.updateOne(
-            { UserId: id },
-            { $push: { key: details[key] } }
-          );
-      }
-      else{
+      // if(key == 'jobs'){
+      //   updatedUser = await Profile.updateOne(
+      //       { UserId: id },
+      //       { $push: { key: details[key] } }
+      //     );
+      // }
+      // else{
       updatedUser = await Profile.updateOne({ UserId: id }, details);
-      }
+      // }
   
       if (updatedUser.nModified === 0) {
 

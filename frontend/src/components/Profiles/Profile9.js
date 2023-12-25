@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import surveyQuestions from "../../asserts/VolDec";
 import { useNavigate,useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function Profile9({ formdetails }) {
   const {id} = useParams();
@@ -14,16 +15,29 @@ export default function Profile9({ formdetails }) {
   } = useForm();
   const skip = () => {};
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     formdetails.Survey = {
       ...formdetails.Survey,
       "What is your race? (Select all that apply)": Object.keys(data.race).filter(
         (option) => data.race[option]
       ),
     };
-    navigate(`/dashboard/${id}`)
+    const reqbody = {
+      Survey: formdetails.Survey
+    }
+    try{
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      console.log(response)
+      if(response.status == 200){
+        console.log(response.body);
+        // Navigate to the next page or wherever you want
+        navigate(`/dashboard/${id}`)
+       }
+    }catch(err){
+      console.log(err);
+    }
     window.scroll(0, 0);
-    console.log(data);
+    // console.log(data);
   };
 
   return (
