@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
@@ -18,6 +18,15 @@ function classNames(...classes) {
 
 export default function Example() {
   const [profile, setprofile] = useState(false);
+  const id = localStorage.getItem("id");
+  useEffect(() => {
+    if(id){
+      setprofile(true)
+    }
+    else{
+      setprofile(false)
+    }
+  })
   return (
     <div className="z-[999] bg-white">
       <Disclosure
