@@ -33,7 +33,6 @@ export default function Signupform() {
     Signupuser(data);
 
     setviewotp(true);
-    Signupuser(data);
   };
 
 

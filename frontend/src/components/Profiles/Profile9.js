@@ -25,6 +25,7 @@ export default function Profile9({ formdetails }) {
     const reqbody = {
       Survey: formdetails.Survey
     }
+    console.log(data)
     try{
       const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
       console.log(response)
