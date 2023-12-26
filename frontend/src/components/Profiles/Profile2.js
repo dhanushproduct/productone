@@ -23,7 +23,7 @@ export default function Profile2({formdetails}) {
       const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
       console.log(response)
       if(response.status == 200){
-        console.log(response.body);
+        // console.log(response.body);
         navigate(`/profile/page3/${id}`)
       }
     }catch(err){
