@@ -1,33 +1,44 @@
+import { Upload } from "keep-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Profile1({ formdetails }) {
-
-  const {id} = useParams();
+  const { id } = useParams();
 
   const { control, handleSubmit } = useForm();
-  const [file, setFile] = useState(null); // State to store the selected file
+  // const [file, setFile] = useState(null); // State to store the selected file
   const navigate = useNavigate();
+  const [fileName, setFileName] = useState("");
 
-  const onFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setFile(selectedFile);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file);
+    if (file) {
+      setFileName(file.name);
+    }
   };
 
+
+  // const onFileChange = (event) => {
+  //   const selectedFile = event.target.files[0];
+  //   setFile(selectedFile);
+  // };
+
   const onFileSubmit = (data) => {
-    formdetails.uploadedFile = file;
+    formdetails.uploadedFile = fileName;
     navigate(`/profile/page2/${id}`);
   };
 
   const validateFile = () => {
-    if (!file) {
+    if (!fileName) {
       return false;
     }
-    if (file.type !== "application/pdf") {
-      return false;
+    if (fileName.type === "application/pdf") {
+      return true;
     }
-    return true;
+    return false;
   };
 
   return (
@@ -40,20 +51,24 @@ export default function Profile1({ formdetails }) {
           onSubmit={handleSubmit(onFileSubmit)}
           className="flex flex-col p-4 justify-center"
         >
-          <input
-            type="file"
+          <Upload
             className="p-4 my-4"
             required
-            onChange={onFileChange}
+            onFileChange={handleFileChange}
+            file={fileName}
           />
-          {file && (
+          {/* {fileName && (
             <div className="mb-4">
-              <embed src={URL.createObjectURL(file)} width="100%" height="500" />
+              <embed
+                src={URL.createObjectURL(fileName)}
+                width="100%"
+                height="500"
+              />
             </div>
-          )}
-          {!validateFile() && (
+          )} */}
+          {/* {!validateFile() && (
             <p className="text-red-500">Please enter a valid PDF file.</p>
-          )}
+          )} */}
           <div className="flex flex-row-reverse">
             <button
               type="submit"

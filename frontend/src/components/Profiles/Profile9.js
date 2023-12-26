@@ -22,9 +22,11 @@ export default function Profile9({ formdetails }) {
         (option) => data.race[option]
       ),
     };
+
     const reqbody = {
-      Survey: formdetails.Survey
+      Survey: data
     }
+    console.log(data) 
     try{
       const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
       console.log(response)

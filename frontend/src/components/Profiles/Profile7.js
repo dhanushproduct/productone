@@ -55,6 +55,7 @@ export default function Profile7({ formdetails }) {
               value={item}
               checked={selectedRole === item}
               onChange={handleRoleChange}
+              className="mx-2"
             />
             <label htmlFor={item} onClick={() => setSelectedRole(item)}>
               {item}
