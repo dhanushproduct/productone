@@ -6,110 +6,103 @@ import Recognitions from "../components/Recognitions";
 import Projects from "../components/Projects";
 import { Button } from "keep-react";
 import { FaPlus, FaRegPaperPlane } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 import axios from "axios";
+import Education from "../components/Education";
 
 const Layout = () => {
-  
-function createEmptyEducation() {
-  return {
-    levelofedu: "1",
-    field: "1",
-    school: "1",
-    city: "1",
-    country: "1",
-    fromMonth: "1",
-    fromYear: "1",
-  };
-}
+  const [jobedit, setjobedit] = useState(false);
+  const [eduedit, seteduedit] = useState(false);
+  function createEmptyEducation() {
+    return {
+      levelofedu: "1",
+      field: "1",
+      school: "1",
+      city: "1",
+      country: "1",
+      fromMonth: "1",
+      fromYear: "1",
+    };
+  }
 
-function createEmptyJob() {
-  return {
-    jobTitle: "1",
-    company: "1",
-    country: "1",
-    city: "1",
-    fromMonth: "1",
-    fromYear: "1",
-    description: "1",
-    toMonth: "1",
-    toYear: "1",
-  };
-}
+  function createEmptyJob() {
+    return {
+      jobTitle: "1",
+      company: "1",
+      country: "1",
+      city: "1",
+      fromMonth: "1",
+      fromYear: "1",
+      description: "1",
+      toMonth: "1",
+      toYear: "1",
+    };
+  }
 
-function createEmptySurvey() {
-  return {
-    gender: "1",
-    race: {
-      isAsian: true,
-      isPacific: false,
-      isBlack: false,
-      isWhite: false,
-      isLatinx: false,
-      isNotListed: false,
-      isNativeAmerican: false,
-    },
-    sex: "1",
-    age: "1",
-    militarystatus: "1",
-  };
-}
+  function createEmptySurvey() {
+    return {
+      gender: "1",
+      race: {
+        isAsian: false,
+        isPacific: false,
+        isBlack: false,
+        isWhite: false,
+        isLatinx: false,
+        isNotListed: false,
+        isNativeAmerican: false,
+      },
+      sex: "1",
+      age: "1",
+      militarystatus: "1",
+    };
+  }
 
-function createEmptyProfile(userId) {
-  return {
-    FullName: {
-      FirstName: "",
-      LastName: "",
-    },
-    Location: {
-      Country: "",
-      StreetAddress: "",
-      City: "",
-      PinCode: "",
-    },
-    education: [createEmptyEducation()],
-    jobs: [createEmptyJob()],
-    skills: [],
-    currentRole: "",
-    WorkLocation: [],
-    Survey: createEmptySurvey(),
-  };
-}
+  function createEmptyProfile() {
+    return {
+      FullName: {
+        FirstName: "",
+        LastName: "",
+      },
+      Location: {
+        Country: "",
+        StreetAddress: "",
+        City: "",
+        PinCode: "",
+      },
+      education: [createEmptyEducation()],
+      jobs: [createEmptyJob()],
+      skills: [],
+      currentRole: "",
+      WorkLocation: [],
+      Survey: createEmptySurvey(),
+    };
+  }
   const [dash, setdash] = useState(createEmptyProfile);
   const { id } = useParams();
-  const skills = [
-    "JavaScript",
-    "Python",
-    "Java",
-    "C++",
-    "HTML/CSS",
-    "Node.js",
-    "React.js",
-    "Angular",
-    "Vue.js",
-    "Django",
-    "Flask",
-    "Express.js",
-    "Spring Boot",
-    "MongoDB",
-    "MySQL",
-  ];
+  const token = localStorage.getItem("token")
+  console.log(token);
+  const navigate = useNavigate();
   useEffect(() => {
     const getprofile = async () => {
       try {
-        await axios
-          .get(`http://localhost:4000/api/profile/getprofile/${id}`)
-          .then((response) => {
-            setdash(response.data.existing_profile);
-          })
-          .catch((err) => console.log(err));
+        const response = await axios.get(`http://localhost:4000/api/profile/getprofile/${token}`);
+        console.log(response.status);
+          setdash(response.data.existing_profile);
       } catch (err) {
+        if (err.response.status === 401) {
+          alert("You have to Login");
+          navigate("/login")
+        }
         console.log(err);
       }
     };
+  
     getprofile();
-    console.log("working")
-  }, [id]);
+    console.log("working");
+  }, [id, token]);
+  
+
+
   return (
     <div className="flex md:flex-row flex-col justify-around  min-h-screen  gap-4 bg-gray-100 p-4">
       <div className=" rounded-md md:w-[65%] w-[100%] ">
@@ -130,7 +123,7 @@ function createEmptyProfile(userId) {
                 1232 Followers - 500+ Connections
               </h2>
             </div>
-            <p className="text-gray-500 text-md">Current Role</p>
+            <p className="text-gray-500 text-md">{dash.currentRole}</p>
           </div>
           <div className="px-6 flex gap-4">
             <Button size="sm" color="info" pill={true}>
@@ -166,7 +159,7 @@ function createEmptyProfile(userId) {
           <div className="space-y-2 w-full p-4 bg-white rounded-xl">
             <h3 className="text-lg font-medium text-gray-900 p-4">Skills</h3>
             <ul className="flex flex-wrap gap-4 pl-4 text-gray-500 list-none">
-              {skills.map((item, key) => (
+              {dash.skills.map((item, key) => (
                 <li
                   className=" border-gray-100 hover:bg-slate-100 hover:shadow-lg hover:scale-110 duration-300 cursor-pointer border-2 p-2 rounded-2xl"
                   key={key}
@@ -184,12 +177,16 @@ function createEmptyProfile(userId) {
                   <GoPlus />
                 </div>
                 <div className=" w-auto p-2 hover:bg-slate-200 rounded-full duration-150">
-                  <LuPencilLine />
+                  <LuPencilLine onClick={() => setjobedit(!jobedit)} />
                 </div>
               </div>
             </div>
-            <TimelineComponent />
-            <TimelineComponent />
+            {/* <TimelineComponent /> */}
+            {dash.jobs.map((item, key) => (
+              <TimelineComponent key={key} props={{ item, jobedit }} />
+            ))}
+
+            {/* <button onClick={() => console.log(dash.jobs)}>button</button> */}
           </div>
           <div className="space-y-2 w-full p-4 bg-white rounded-xl ">
             <div className="text-lg font-medium text-gray-900 flex justify-between p-4">
@@ -200,11 +197,15 @@ function createEmptyProfile(userId) {
                   <GoPlus />
                 </div>
                 <div className=" w-auto p-2 hover:bg-slate-200 rounded-full duration-150">
-                  <LuPencilLine />
+                  <LuPencilLine onClick={() => seteduedit(!eduedit)} />
                 </div>
               </div>
             </div>
-            <TimelineComponent />
+            {/* <TimelineComponent /> */}
+            {dash.education.map((item, key) => (
+              <Education key={key} props={{ item, eduedit }} />
+            ))}
+            {/* <button onClick={() => console.log(dash.education)}>button</button> */}
           </div>
           <div className="flex flex-row space-x-2 w-full p-4 bg-white rounded-xl">
             <h3 className="text-lg font-medium text-gray-900">Location</h3>

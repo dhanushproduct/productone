@@ -1,7 +1,7 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate,useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../asserts/logo.png";
 import "../styles/carousel.css";
@@ -18,6 +18,23 @@ function classNames(...classes) {
 
 export default function Example() {
   const [profile, setprofile] = useState(false);
+  const token = localStorage.getItem("token");
+
+  const navigate = useNavigate();
+
+  const handleSignout = () => {
+    localStorage.clear(); 
+  }
+
+
+  useEffect(() => {
+    if(token){
+      setprofile(true)
+    }
+    else{
+      setprofile(false)
+    }
+  })
   return (
     <div className="z-[999] bg-white">
       <Disclosure
@@ -139,11 +156,12 @@ export default function Example() {
                         <Menu.Item>
                           {({ active }) => (
                             <NavLink
-                              to="#"
+                              to="/"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
+                              onClick={handleSignout}
                             >
                               Sign out
                             </NavLink>

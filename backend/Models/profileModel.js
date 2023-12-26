@@ -63,28 +63,28 @@ const jobSchema = new Schema({
 });
 
 const surveySchema = new Schema({
-  gender: {
+  "What is your gender identity?": {
     type: String,
     required: true,
   },
-  race: {
-    isAsian: Boolean,
-    isPacific: Boolean,
-    isBlack: Boolean,
-    isWhite: Boolean,
-    isLatinx: Boolean,
-    isNotListed: Boolean,
-    isNativeAmerican: Boolean,
+  "What is your race? (Select all that apply)": {
+    "Asian": Boolean,
+    "Native Hawaiian or Pacific Islander": Boolean,
+    "Black or African American": Boolean,
+    "White": Boolean,
+    "Hispanic or Latinx": Boolean,
+    "Not listed": Boolean,
+    "Native American or Alaskan Native": Boolean,
   },
-  sex: {
+  "What is your sexual orientation?": {
     type: String,
     required: true,
   },
-  age: {
+  "What is your age range?": {
     type: String,
     required: true,
   },
-  militarystatus: {
+  "What is your military status?": {
     type: String,
     required: true,
   },

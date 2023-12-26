@@ -1,5 +1,6 @@
 const Profile = require("../Models/profileModel");
 const mongoose = require("mongoose");
+const jwt = require('jsonwebtoken');
 
 const editprofile = async (req, res) => {
   try {
@@ -27,7 +28,9 @@ const editprofile = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-    const id = req.params.id;
+    const token = req.params.token;
+    const decoded = jwt.verify(token, process.env.USER_SECRET_KEY);
+    const id = decoded._id
     const existing_profile = await Profile.findOne({ UserId: id });
 
     if (!existing_profile) {
@@ -40,7 +43,10 @@ const getProfile = async (req, res) => {
       id: id,
     });
   } catch (err) {
-    console.error("Error in getProfile:", err);
+    if (err instanceof jwt.JsonWebTokenError) {
+      return res.status(401).json({message:err.message});
+    } else {
+    }
     return res
       .status(500)
       .json({ message: "internal server error", error: err });

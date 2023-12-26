@@ -99,11 +99,11 @@ const login = async (req, res) => {
     if (!isPasswordMatch) {
       return res.status(401).json({ error: "Enter correct email/password" });
     }
-
-    let jwttoken = jwt.sign({ email: email }, "abcdefg", { expiresIn: "2h" });
+    console.log('Before')
+    let jwttoken = jwt.sign(existingUser.toObject(), process.env.USER_SECRET_KEY, { expiresIn: "2h" });
+    console.log(jwttoken);
     res.status(200).json({
       message: "User logged in successfully",
-      user: existingUser,
       token: jwttoken,
       type: "user",
     });
@@ -192,9 +192,11 @@ const verifyotp = async (req, res) => {
     // Save the new profile
     await newProfile.save();
 
+    let jwttoken = jwt.sign(newUser, process.env.USER_SECRET_KEY, { expiresIn: '2h' });
+
     return res
       .status(200)
-      .json({ message: "Successfully verified", user: newUser });
+      .json({ message: "Successfully verified", token : jwttoken,type:"user"});
   } catch (err) {
     console.error("Error during user registration:", err);
     res.status(500).json({ error: err.message });

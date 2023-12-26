@@ -23,21 +23,20 @@ function Userloginstore({children}){
             //  console.log(response.message)
              if(response.status == 200)
              {
-                 setcurrentuser(response.data.user)
                  setUserloginStatus(true)
                  setloginerror("")
-                 localStorage.setItem("token",response.data.token)
+                 let token = response.data.token;
+                 localStorage.setItem("token",token);
                  localStorage.setItem("type",response.data.type)
-                // Hash the user ID
-                const id = response.data.user._id;
-                const hashedId = bcrypt.hashSync(id, 10); // You can adjust the number of salt rounds
-                const hashedIdWithoutSlashes = hashedId.replace(/\//g, '');
+                // // Hash the user ID
+                // const id = response.data.user._id;
+                // const hashedId = bcrypt.hashSync(id, 10); // You can adjust the number of salt rounds
+                // const hashedIdWithoutSlashes = hashedId.replace(/\//g, '');
 
 
 
                 // Store the hashed ID in local storage
-                localStorage.setItem("id", hashedIdWithoutSlashes);                 
-                navigate(`/dashboard/${hashedIdWithoutSlashes}`);
+                navigate(`/dashboard/${token}`);
              }
            })
            .catch(err=>{
@@ -71,9 +70,9 @@ function Userloginstore({children}){
      if(response.status == 200)
      {
          console.log(response.data);
-         const id = response.data.user._id;    
-         localStorage.setItem("id",id)
-         navigate(`/profile/page1/${id}`);
+         const token = response.data.token;    
+         localStorage.setItem("token",token)
+         navigate(`/profile/page1/${token}`);
         window.scroll(0, 0);
      }
    })
