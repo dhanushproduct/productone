@@ -1,10 +1,11 @@
 import { Fragment, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { NavLink, Navigate,useNavigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../asserts/logo.png";
 import "../styles/carousel.css";
+
 const navigation = [
   { name: "Sign up", to: "/signup", current: true },
   { name: "Log in", to: "/login", current: false },
@@ -20,46 +21,49 @@ export default function Example() {
   const [profile, setprofile] = useState(false);
   const token = localStorage.getItem("token");
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const notifications = [
+    { id: 1, message: "Notification 1" },
+    { id: 2, message: "Notification 2" },
+    { id: 3, message: "Notification 3" },
+  ];
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   const navigate = useNavigate();
 
   const handleSignout = () => {
-    localStorage.clear(); 
-  }
-
+    localStorage.clear();
+  };
 
   useEffect(() => {
-    if(token){
-      setprofile(true)
+    if (token) {
+      setprofile(true);
+    } else {
+      setprofile(false);
     }
-    else{
-      setprofile(false)
-    }
-  })
+  });
   return (
     <div className="z-[999] bg-white">
-      <Disclosure
-        as="nav"
-        className=" navbb   z-[999] "
-      >
+      <Disclosure as="nav" className=" navbb   z-[999] ">
         {({ open }) => (
           <>
-            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-              <div className="relative flex h-16 items-center justify-between">
+            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 ">
+              <div className="relative flex h-16 items-center justify-between ">
                 <div className="flex flex-1 items-center justify-start sm:items-stretch sm:justify-start">
                   <div className="flex flex-shrink-0 items-center">
                     <NavLink to="/">
-
-                  <img
-                  className="h-16 w-auto"
-                  src={logo}
-                  alt="Your Company"
-                  />
-                  </NavLink>
-                
-                </div>
+                      <img
+                        className="h-10 w-auto"
+                        src={logo}
+                        alt="Your Company"
+                      />
+                    </NavLink>
                   </div>
+                </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                 
                   {!profile && (
                     <div className="  hidden sm:block">
                       <NavLink to="/login">
@@ -77,22 +81,34 @@ export default function Example() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-3">
                     <div className="flex gap-5">
-                      {
-                        profile && (
-
-                          
-                          <button
-                          type="button"
-                          className="relative rounded-full   focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                        >
-                          <span className="absolute -inset-1.5" />
-                          <span className="sr-only">View notifications</span>
-                          <BellIcon className="h-6 w-6" aria-hidden="true" />
-                        </button>
-                        )
-                      }
                       {profile && (
-                        
+                        <div className="h-full flex justify-center items-center">
+                          <button onClick={toggleDropdown}
+                            type="button"
+                            className="relative rounded-full   focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                          >
+                            <div className="h-[10px] w-[10px] rounded top-0 right-1 bg-red-600 absolute"></div>
+                            <span className="absolute -inset-1.5" />
+                            <span className="sr-only">View notifications</span>
+                            <BellIcon className="h-8 w-8" aria-hidden="true" />
+                          </button>
+                          {isDropdownOpen && (
+                            <div className="dropdown-content absolute bg-white z-10 top-[120%] right-[50%] w-[40vw] md:w-[20vw]">
+                             
+                              {notifications.map((notification) => (
+                                <div
+                                  key={notification.id}
+                                  className="notification-item px-2 text-center"
+                                >
+                                  {notification.message}
+                            <hr className="pt-2 pb-2 " />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      {profile && (
                         <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
