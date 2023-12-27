@@ -2,6 +2,7 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { toast } from "react-toastify";
 
 export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp, setdata,verifyOTP}) {
   const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""]);
@@ -18,7 +19,8 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
     let flag=1;
     for (let i = 0; i < otpValues.length; i++) {
       if (otpValues[i] === "") {
-        alert("Enter correct OTP");
+        // alert("");
+        toast("Enter correct OTP");
         flag=0;
         break;
       }
@@ -29,7 +31,7 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
 
     // alert("otp verified");
     // Signupuser(data);
-    alert(otpValues.join(""))
+    // alert(otpValues.join(""))
  
 
     
@@ -59,6 +61,7 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
   };
   const closemodal = () => {
     setviewotp(false);
+    window.scroll(0, 0)
   }
 
   const handlepaste = (e) => {
@@ -124,7 +127,7 @@ export default function MailOtp({viewmailotp, setviewotp, Signupuser, data, otp,
             </b>
        
          
-          <span className=" px-3 text-blue-500 font-semibold">Change</span>{" "}
+          <span className=" px-3 text-blue-500 font-semibold cursor-pointer" onClick={closemodal}>Change</span>{" "}
         </h1>
 
         <form onPaste={handlepaste}>
