@@ -42,21 +42,22 @@ function createEmptyJob() {
 
 function createEmptySurvey() {
   return {
-    gender: "1",
-    race: {
-      isAsian: true,
-      isPacific: false,
-      isBlack: false,
-      isWhite: false,
-      isLatinx: false,
-      isNotListed: false,
-      isNativeAmerican: false,
+    "What is your gender identity?": "male",
+    "What is your race? (Select all that apply)": {
+      "Asian": true,
+      "Native Hawaiian or Pacific Islander": false,
+      "Black or African American": false,
+      "White": false,
+      "Hispanic or Latinx": false,
+      "Not listed": false,
+      "Native American or Alaskan Native": false,
     },
-    sex: "1",
-    age: "1",
-    militarystatus: "1",
+    "What is your sexual orientation?": "1",
+    "What is your age range?": "1",
+    "What is your military status?": "1",
   };
 }
+
 
 function createEmptyProfile(userId) {
   return {
@@ -192,7 +193,7 @@ const verifyotp = async (req, res) => {
     // Save the new profile
     await newProfile.save();
 
-    let jwttoken = jwt.sign(newUser, process.env.USER_SECRET_KEY, { expiresIn: '2h' });
+    let jwttoken = jwt.sign(newUser.toObject(), process.env.USER_SECRET_KEY, { expiresIn: '2h' });
 
     return res
       .status(200)
