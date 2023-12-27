@@ -4,6 +4,9 @@ import { NavLink } from "react-router-dom";
 import { logincontext } from "../contexts/Logincontext";
 import MailOtp from "./MailOtp";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Signupform() {
   const [
     currentuser,
@@ -15,29 +18,38 @@ export default function Signupform() {
     Signupadmin,
     Logoutuser,
   ] = useContext(logincontext);
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const [viewmailotp, setviewotp] = useState(false);
   const [data, setdata] = useState();
- const [showpassword, setshowpassword] = useState("password");
+  const [showpassword, setshowpassword] = useState("password");
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
   const showpass = () => {
-    const type = showpassword === "password"? "text": "password"
-    setshowpassword(type)
-  }
-  const submitform = (data) => {
-    // console.log(data);
-
-    setdata(data)
-
-    setviewotp(true);
+    const type = showpassword === "password" ? "text" : "password";
+    setshowpassword(type);
   };
-
+  const submitform = (data) => {
+    if (data.password !== data.cpassword) {
+      toast.error("check your password");
+      setviewotp(false);
+      return
+    }
+    // console.log(data);
+    const {cpassword, ...userdata} = data;
+    
+    // console.log(userdata)
+    setdata(userdata);
+    Signupuser(userdata);
+    setviewotp(!viewmailotp);
+    // toast.success("OTP successfully sent");  
+  };
 
   return (
     <div>
@@ -78,17 +90,16 @@ export default function Signupform() {
           required
           {...register("email")}
         />
-        <input
-
+        {/* <input
           type={showpassword}
           placeholder="Password"
           className="w-full p-2  border-b-4 border-2 text-gray-800 rounded-md my-2"
           name="password"
           required
           {...register("password")}
-        />
-        {/* <input
-          type="password"
+        /> */}
+        <input
+          type={showpassword}
           placeholder="Password"
           className={`w-full p-2 border-b-4 border-2 text-gray-800 rounded-md my-2 ${
             errors.password ? "border-red-500" : "" // Add red border for invalid passwords
@@ -106,18 +117,25 @@ export default function Signupform() {
         />
         {errors.password && (
           <p className="text-red-500">{errors.password.message}</p>
-        )} */}
+        )}
         <input
           type={showpassword}
           placeholder="Confirm Password"
           className="w-full p-2  border-b-4 border-2 text-gray-800 rounded-md my-2"
           name="cpassword"
           required
+          {...register("cpassword")}
         />
-         <div className="py-2">
-            <input type="checkbox" name="show" id="show" onChange={showpass} />
-            <label htmlFor="show" className="text-sm text-justify hover:cursor-pointer  px-2"> Show password</label>
-          </div>
+        <div className="py-2">
+          <input type="checkbox" name="show" id="show" onChange={showpass} />
+          <label
+            htmlFor="show"
+            className="text-sm text-justify hover:cursor-pointer  px-2"
+          >
+            {" "}
+            Show password
+          </label>
+        </div>
         <div className="py-3 hover:cursor-pointer">
           <input type="checkbox" name="terms" id="terms" required />
           <label
@@ -180,6 +198,7 @@ export default function Signupform() {
         </div>
         <br />
       </form>
+      <ToastContainer />
     </div>
   );
 }

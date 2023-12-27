@@ -20,7 +20,8 @@ import Profile6 from "./components/Profiles/Profile6";
 import Profile7 from "./components/Profiles/Profile7";
 import Profile8 from "./components/Profiles/Profile8";
 import Profile9 from "./components/Profiles/Profile9";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
  
   const formdetails = {};
@@ -56,6 +57,7 @@ export default function App() {
         </Routes>
       </div>
       <Footer />
+      <ToastContainer/>
     </div>
   );
 }

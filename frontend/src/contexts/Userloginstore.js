@@ -1,185 +1,179 @@
 import { logincontext } from "./Logincontext";
-import React,{useState,} from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import bcrypt from 'bcryptjs';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import bcrypt from "bcryptjs";
+import { toast } from "react-toastify";
 
+function Userloginstore({ children }) {
+  const [currentuser, setcurrentuser] = useState({});
+  const [loginerror, setloginerror] = useState("");
+  const [UserloginStatus, setUserloginStatus] = useState(false);
+  const [otp, setOtp] = useState("");
 
-function Userloginstore({children}){  
+  const navigate = useNavigate();
 
-    const [currentuser,setcurrentuser]=useState({})
-    const [loginerror,setloginerror]=useState("")
-    const [UserloginStatus,setUserloginStatus]=useState(false)
-    const [otp,setOtp]=useState('')
-
-    const navigate = useNavigate();
-
-    const Loginuser=(userobj)=>{
-              console.log(userobj);
-              //make http post request to server new user to local api
-              axios
-              .post('http://localhost:4000/api/users/userslogin',userobj)
-           .then(response=>{
-            //  console.log(response.message)
-             if(response.status == 200)
-             {
-                 setUserloginStatus(true)
-                 setloginerror("")
-                 let token = response.data.token;
-                 localStorage.setItem("token",token);
-                 localStorage.setItem("type",response.data.type)
-                // // Hash the user ID
-                // const id = response.data.user._id;
-                // const hashedId = bcrypt.hashSync(id, 10); // You can adjust the number of salt rounds
-                // const hashedIdWithoutSlashes = hashedId.replace(/\//g, '');
-
-
-
-                // Store the hashed ID in local storage
-                navigate(`/dashboard/${token}`);
-             }
-           })
-           .catch(err=>{
-            if(err.response){
-                if(err.response.status == 404){
-                    alert('Enter correct mail id')
-                }
-                else if(err.response.status == 401){
-                    alert('Enter correct password')
-                }
-                else{
-                  alert('Login Error')
-                  setloginerror(err.response.data.message)
-                }
-              }
-              else{
-                alert('Unexpected Error')
-              }
-           })
-    }
-
-    const VerifyOTP = (userobj,writtenOtp) =>{
-      console.log(userobj);
-      console.log(writtenOtp);
-      if(writtenOtp == otp){
-      //make http post request to server new user to local api
-      axios
-      .post('http://localhost:4000/api/users/verifyOTP',userobj)
-   .then(response=>{
-    //  console.log(response.message)
-     if(response.status == 200)
-     {
-         console.log(response.data);
-         const token = response.data.token;    
-         localStorage.setItem("token",token)
-         navigate(`/profile/page1/${token}`);
-        window.scroll(0, 0);
-     }
-   })
-   .catch(err=>{
-    if(err.response){
-        if(err.response.status == 401){
-            alert('Account with this mail id already exists')
-        }
-        else{
-          alert(err.response.data.message)
-          setloginerror(err.response.data.message)
-        }
-      }
-      else{
-        alert('Unexpected Error')
-      }
-   })
-  }
-  else{
-    alert('Enter Correct OTP');
-  }
-    }
-
-    
-    const Signupuser=(userobj)=>{
-        console.log(userobj);
-        //make http post request to server new user to local api
-
-        // request otp
-        axios
-        .post('http://localhost:4000/api/users/userssignup',userobj)
-     .then(response=>{
-      //  console.log(response.message)
-       if(response.status == 200)
-       {
-           console.log(response.data);
-           setOtp(response.data.otp)
-           return response.data;
-
-       }
-     })
-     .catch(err=>{
-      if(err.response){
-          if(err.response.status == 401){
-              alert('Account with this mail id already exists')
-          }
-          else{
-            alert(err.response.data.message)
-            setloginerror(err.response.data.message)
-          }
-        }
-        else{
-          alert('Unexpected Error')
-        }
-     })
-}
-
-const verifyotp = (userobj) => {
-  // to complete
-}
-
-
-
-
-
-
-const Signupadmin=(userobj)=>{
+  const Loginuser = (userobj) => {
     console.log(userobj);
     //make http post request to server new user to local api
     axios
-    .post('http://localhost:4000/api/admin/adminsignup',userobj)
- .then(response=>{
-  //  console.log(response.message)
-   if(response.status == 200)
-   {
-       setcurrentuser(response.data.admin.username)
-       setUserloginStatus(true)
-       setloginerror("")
-       localStorage.setItem("token",response.data.token)
-       const id = response.data.admin._id;    
-       localStorage.setItem("id",id)
-       navigate(`/admindashboard/${id}`);
-   }
- })
- .catch(err=>{
-  if(err.response){
-      if(err.response.status == 400){
-          alert('Username already exists')
-      }
-      else{
-        alert('Login Error')
-        setloginerror(err.response.data.message)
-      }
+      .post("http://localhost:4000/api/users/userslogin", userobj)
+      .then((response) => {
+        //  console.log(response.message)
+        if (response.status == 200) {
+          setUserloginStatus(true);
+          setloginerror("");
+          let token = response.data.token;
+          localStorage.setItem("token", token);
+          localStorage.setItem("type", response.data.type);
+          // // Hash the user ID
+          // const id = response.data.user._id;
+          // const hashedId = bcrypt.hashSync(id, 10); // You can adjust the number of salt rounds
+          // const hashedIdWithoutSlashes = hashedId.replace(/\//g, '');
+
+          // Store the hashed ID in local storage
+          navigate(`/dashboard/${token}`);
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status == 404) {
+            // toast('Enter correct mail id')
+            toast("Enter correct mail id");
+          } else if (err.response.status == 401) {
+            // toast('Enter correct password')
+            toast("Enter correct password");
+          } else {
+            // toast('Login Error')
+            toast("Login error");
+            setloginerror(err.response.data.message);
+          }
+        } else {
+          toast("Unexpected Error");
+        }
+      });
+  };
+
+  const VerifyOTP = (userobj, writtenOtp) => {
+    console.log(userobj);
+    console.log(writtenOtp);
+    if (writtenOtp == otp) {
+      //make http post request to server new user to local api
+      axios
+        .post("http://localhost:4000/api/users/verifyOTP", userobj)
+        .then((response) => {
+          //  console.log(response.message)
+          if (response.status == 200) {
+            console.log(response.data);
+            const token = response.data.token;
+            localStorage.setItem("token", token);
+            navigate(`/profile/page1/${token}`);
+            window.scroll(0, 0);
+          }
+        })
+        .catch((err) => {
+          if (err.response) {
+            if (err.response.status == 401) {
+              toast("Account with this mail id already exists");
+            } else {
+              toast(err.response.data.message);
+              setloginerror(err.response.data.message);
+            }
+          } else {
+            toast("Unexpected Error");
+          }
+        });
+    } else {
+      toast("Enter Correct OTP");
     }
-    else{
-      alert('Unexpected Error')
-    }
- })
+  };
+
+  const Signupuser = (userobj) => {
+    console.log(userobj);
+    //make http post request to server new user to local api
+
+    // request otp
+    axios
+      .post("http://localhost:4000/api/users/userssignup", userobj)
+      .then((response) => {
+        //  console.log(response.message)
+        if (response.status == 200) {
+          console.log(response.data);
+          setOtp(response.data.otp);
+          toast.success("OTP successfully sent");
+
+          return response.data;
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status == 401) {
+            toast.warn("Account with this mail id already exists");
+          } else {
+            toast(err.response.data.message);
+            setloginerror(err.response.data.message);
+          }
+        } else {
+          toast("Unexpected Error");
+        }
+      });
+  };
+
+  const verifyotp = (userobj) => {
+    // to complete
+  };
+
+  const Signupadmin = (userobj) => {
+    console.log(userobj);
+    //make http post request to server new user to local api
+    axios
+      .post("http://localhost:4000/api/admin/adminsignup", userobj)
+      .then((response) => {
+        //  console.log(response.message)
+        if (response.status == 200) {
+          setcurrentuser(response.data.admin.username);
+          setUserloginStatus(true);
+          setloginerror("");
+          localStorage.setItem("token", response.data.token);
+          const id = response.data.admin._id;
+          localStorage.setItem("id", id);
+          navigate(`/admindashboard/${id}`);
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status == 400) {
+            toast("Username already exists");
+          } else {
+            toast("Login Error");
+            setloginerror(err.response.data.message);
+          }
+        } else {
+          toast("Unexpected Error");
+        }
+      });
+  };
+  const Logoutuser = () => {
+    localStorage.clear();
+    setUserloginStatus(false);
+    navigate("/");
+    toast("You have succesfully logged out");
+  };
+  return (
+    <logincontext.Provider
+      value={[
+        currentuser,
+        loginerror,
+        UserloginStatus,
+        Loginuser,
+        Signupuser,
+        VerifyOTP,
+        Signupadmin,
+        Logoutuser,
+      ]}
+    >
+      {children}
+    </logincontext.Provider>
+  );
 }
-    const Logoutuser=()=>{
-        localStorage.clear()
-        setUserloginStatus(false)
-        navigate('/')
-        alert('You have succesfully logged out')
-    }
-    return (
-        <logincontext.Provider value={[currentuser,loginerror,UserloginStatus,Loginuser,Signupuser,VerifyOTP,Signupadmin,Logoutuser]}>{children}</logincontext.Provider>
-    )
-}
-export default Userloginstore
+export default Userloginstore;
