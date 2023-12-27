@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import Loginform from "../components/Loginform";
+import ReDashboard from "./ReDashboard";
 
 export default function Signup() {
   const [role, setRole] = useState("jobseeker");
+
+  const token = localStorage.getItem("token");
+  console.log(token);
   
   const toggleRole = () => {
     setRole(role === "jobseeker" ? "employer" : "jobseeker");
   };
 
+  if(token!=null){
+   return  <ReDashboard/>
+  }
+  else{
   return (
     <div className="flex justify-center items-center p-3 ">
       
@@ -41,4 +49,5 @@ export default function Signup() {
       </div>
     </div>
   );
+          }
 }

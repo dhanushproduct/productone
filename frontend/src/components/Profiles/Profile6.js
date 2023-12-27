@@ -6,6 +6,7 @@ import { ImBin } from "react-icons/im";
 import axios from "axios";
 
 export default function Profile6({ formdetails }) {
+
   const {id} = useParams();
   const navigate = useNavigate();
   const submitbut = async () => {

@@ -36,7 +36,6 @@ export default function Signupform() {
     setdata(data)
 
     setviewotp(true);
-    Signupuser(data);
   };
 
 

@@ -4,6 +4,6 @@ const router = express.Router()
 
 router.post('/editprofile/:id', editprofile)
 
-router.get('/getprofile/:id', getProfile)
+router.get('/getprofile/:token', getProfile)
 
 module.exports = router

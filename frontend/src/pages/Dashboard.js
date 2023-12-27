@@ -6,7 +6,7 @@ import Recognitions from "../components/Recognitions";
 import Projects from "../components/Projects";
 import { Button } from "keep-react";
 import { FaPlus, FaRegPaperPlane } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 import axios from "axios";
 import Education from "../components/Education";
 
@@ -79,23 +79,30 @@ const Layout = () => {
   }
   const [dash, setdash] = useState(createEmptyProfile);
   const { id } = useParams();
-
+  const token = localStorage.getItem("token")
+  console.log(token);
+  const navigate = useNavigate();
   useEffect(() => {
     const getprofile = async () => {
       try {
-        await axios
-          .get(`http://localhost:4000/api/profile/getprofile/${id}`)
-          .then((response) => {
-            setdash(response.data.existing_profile);
-          })
-          .catch((err) => console.log(err));
+        const response = await axios.get(`http://localhost:4000/api/profile/getprofile/${token}`);
+        console.log(response.status);
+          setdash(response.data.existing_profile);
       } catch (err) {
+        if (err.response.status === 401) {
+          alert("You have to Login");
+          navigate("/login")
+        }
         console.log(err);
       }
     };
+  
     getprofile();
     console.log("working");
-  }, [id]);
+  }, [id, token]);
+  
+
+
   return (
     <div className="flex md:flex-row flex-col justify-around  min-h-screen  gap-4 bg-gray-100 p-4">
       <div className=" rounded-md md:w-[65%] w-[100%] ">

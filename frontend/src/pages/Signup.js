@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import Signupform from "../components/Signupform";
 import MailOtp from "../components/MailOtp"
+import ReDashboard from "./ReDashboard";
 
 export default function Signup() {
   const [role, setRole] = useState("jobseeker");
   
+  const token = localStorage.getItem("token");
+
   const toggleRole = () => {
     setRole(role === "jobseeker" ? "employer" : "jobseeker");
   };
+
+  if(token!=null){
+    return <ReDashboard/>
+  }
+  else{
 
   return (
     <div className="flex lg:flex-row flex-col m-[3rem]  ">
@@ -57,6 +65,7 @@ export default function Signup() {
       </div>
     </div>
   );
+      }
 }
 
 
