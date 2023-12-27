@@ -90,15 +90,15 @@ export default function Signupform() {
           required
           {...register("email")}
         />
-        {/* <input
+        <input
           type={showpassword}
           placeholder="Password"
           className="w-full p-2  border-b-4 border-2 text-gray-800 rounded-md my-2"
           name="password"
           required
           {...register("password")}
-        /> */}
-        <input
+        />
+        {/* <input
           type={showpassword}
           placeholder="Password"
           className={`w-full p-2 border-b-4 border-2 text-gray-800 rounded-md my-2 ${
@@ -117,7 +117,7 @@ export default function Signupform() {
         />
         {errors.password && (
           <p className="text-red-500">{errors.password.message}</p>
-        )}
+        )} */}
         <input
           type={showpassword}
           placeholder="Confirm Password"
