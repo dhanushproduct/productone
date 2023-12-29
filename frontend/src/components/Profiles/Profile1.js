@@ -2,9 +2,11 @@ import { Upload } from "keep-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import ReLogin from "../../pages/ReLogin";
 
 export default function Profile1({ formdetails }) {
-  const { id } = useParams();
+  
+  const token  = localStorage.getItem("token");
 
   const { control, handleSubmit } = useForm();
   // const [file, setFile] = useState(null); // State to store the selected file
@@ -28,7 +30,7 @@ export default function Profile1({ formdetails }) {
 
   const onFileSubmit = (data) => {
     formdetails.uploadedFile = fileName;
-    navigate(`/profile/page2/${id}`);
+    navigate(`/profile/page2/${token}`);
   };
 
   const validateFile = () => {
@@ -41,6 +43,10 @@ export default function Profile1({ formdetails }) {
     return false;
   };
 
+  if(token==null){
+    return <ReLogin/>
+  }
+  else{
   return (
     <div className="m-4 relative">
       <div className="text-center py-3 text-2xl font-bold font-sans">
@@ -81,4 +87,5 @@ export default function Profile1({ formdetails }) {
       </div>
     </div>
   );
+        }
 }

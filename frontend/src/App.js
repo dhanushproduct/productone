@@ -27,14 +27,14 @@ export default function App() {
   const formdetails = {};
 
   return (
-    <div className="min-h-screen w-full">
+    <div className=" min-h-screen w-full">
       <div>
-        <Headroom>
+        <Headroom >
           <Navbar />
         </Headroom>
       </div>
-      <br />
-      <div className="z-[0] min-h-screen ">
+      
+      <div className="">
         <Routes>
           <Route element={<Landing />} path="/" />
           <Route element={<Signup />} path="/signup" />

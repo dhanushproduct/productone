@@ -6,6 +6,7 @@ export default function ReDashboard() {
   const navigate = useNavigate()
   
   const handleLogin = () => {
+    navigate(`/dashboard/${localStorage.getItem("token")}`)
     if(localStorage.getItem("type") == "user"){
         navigate(`/dashboard/${localStorage.getItem("token")}`)
     }
@@ -22,8 +23,6 @@ export default function ReDashboard() {
       <button className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-2 rounded-xl md:w-[30%] w-[80%] my-4 md:my-0" onClick={handleLogin}>Go to Dashboard</button>
     </div>
 
-
-    </div>
-)
-
+   </div>
+  )
 }

@@ -18,7 +18,7 @@ export default function Signup() {
   else{
 
   return (
-    <div className="flex lg:flex-row flex-col m-[3rem]  ">
+    <div className="flex lg:flex-row flex-col md:m-[3rem] m-[1rem]  ">
       <div className="lg:w-[50vw] w-[100%] p-2">
         <h2 className="text-[2rem] font-bold">3 Reasons You'll Love aspireup</h2>
         <ul className="py-3">

@@ -16,27 +16,27 @@ const { ObjectId } = mongoose.Types;
 
 function createEmptyEducation() {
   return {
-    levelofedu: "1",
-    field: "1",
-    school: "1",
-    city: "1",
-    country: "1",
-    fromMonth: "1",
-    fromYear: "1",
+    levelofedu: " ",
+    field: " ",
+    school: " ",
+    city: " ",
+    country: " ",
+    fromMonth: " ",
+    fromYear: " ",
   };
 }
 
 function createEmptyJob() {
   return {
-    jobTitle: "1",
-    company: "1",
-    country: "1",
-    city: "1",
-    fromMonth: "1",
-    fromYear: "1",
-    description: "1",
-    toMonth: "1",
-    toYear: "1",
+    jobTitle: " ",
+    company: " ",
+    country: " ",
+    city: " ",
+    fromMonth: " ",
+    fromYear: " ",
+    description: " ",
+    toMonth: " ",
+    toYear: " ",
   };
 }
 
@@ -52,9 +52,9 @@ function createEmptySurvey() {
       "Not listed": false,
       "Native American or Alaskan Native": false,
     },
-    "What is your sexual orientation?": "1",
-    "What is your age range?": "1",
-    "What is your military status?": "1",
+    "What is your sexual orientation?": " ",
+    "What is your age range?": " ",
+    "What is your military status?": " ",
   };
 }
 
@@ -63,20 +63,20 @@ function createEmptyProfile(userId) {
   return {
     UserId: userId,
     FullName: {
-      FirstName: "1",
-      LastName: "1",
+      FirstName: " ",
+      LastName: " ",
     },
     Location: {
-      Country: "1",
-      StreetAddress: "1",
-      City: "1",
-      PinCode: "1",
+      Country: " ",
+      StreetAddress: " ",
+      City: " ",
+      PinCode: " ",
     },
     education: [createEmptyEducation()],
     jobs: [createEmptyJob()],
-    skills: ["asdhas"],
-    currentRole: "1",
-    WorkLocation: ["ashs"],
+    skills: [" "],
+    currentRole: " ",
+    WorkLocation: [" "],
     Survey: createEmptySurvey(),
   };
 }
