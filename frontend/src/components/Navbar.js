@@ -5,6 +5,7 @@ import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../asserts/logo.png";
 import "../styles/carousel.css";
+import { toast } from "react-toastify";
 
 const navigation = [
   { name: "Sign up", to: "/signup", current: true },
@@ -23,7 +24,7 @@ export default function Example() {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const notifications = [
-    { id: 1, message: "Notification 1" },
+    { id: 1, message: "Notification 1 " },
     { id: 2, message: "Notification 2" },
     { id: 3, message: "Notification 3" },
   ];
@@ -36,6 +37,7 @@ export default function Example() {
 
   const handleSignout = () => {
     localStorage.clear();
+    toast.success("You have succesfully logged out");
   };
 
   useEffect(() => {
@@ -83,7 +85,8 @@ export default function Example() {
                     <div className="flex gap-5">
                       {profile && (
                         <div className="h-full flex justify-center items-center">
-                          <button onClick={toggleDropdown}
+                          <button
+                            onClick={toggleDropdown}
                             type="button"
                             className="relative rounded-full   focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                           >
@@ -93,15 +96,16 @@ export default function Example() {
                             <BellIcon className="h-8 w-8" aria-hidden="true" />
                           </button>
                           {isDropdownOpen && (
-                            <div className="dropdown-content absolute bg-white z-10 top-[120%] right-[50%] w-[40vw] md:w-[20vw]">
-                             
+                            <div className="dropdown-content absolute bg-white z-10 top-[120%] right-[50%] min-w-[40vw] md:w-[20vw] border-2 rounded-xl ">
                               {notifications.map((notification) => (
                                 <div
                                   key={notification.id}
                                   className="notification-item px-2 text-center"
                                 >
+                                  <div className=" m-2">
                                   {notification.message}
-                            <hr className="pt-2 pb-2 " />
+                                  </div>
+                                  <hr />
                                 </div>
                               ))}
                             </div>

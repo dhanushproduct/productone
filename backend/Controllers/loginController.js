@@ -42,19 +42,19 @@ function createEmptyJob() {
 
 function createEmptySurvey() {
   return {
-    gender: "1",
-    race: {
-      isAsian: true,
-      isPacific: false,
-      isBlack: false,
-      isWhite: false,
-      isLatinx: false,
-      isNotListed: false,
-      isNativeAmerican: false,
+    "What is your gender identity?": "male",
+    "What is your race? (Select all that apply)": {
+      "Asian": true,
+      "Native Hawaiian or Pacific Islander": false,
+      "Black or African American": false,
+      "White": false,
+      "Hispanic or Latinx": false,
+      "Not listed": false,
+      "Native American or Alaskan Native": false,
     },
-    sex: "1",
-    age: "1",
-    militarystatus: "1",
+    "What is your sexual orientation?": "1",
+    "What is your age range?": "1",
+    "What is your military status?": "1",
   };
 }
 
@@ -191,9 +191,10 @@ const verifyotp = async (req, res) => {
 
     // Save the new profile
     await newProfile.save();
-
-    let jwttoken = jwt.sign(newUser, process.env.USER_SECRET_KEY, { expiresIn: '2h' });
-
+    // console.log(newUser)
+    // console.log(process.env.USER_SECRET_KEY)
+    let jwttoken = jwt.sign(newUser.toObject(), process.env.USER_SECRET_KEY, { expiresIn: '2h' });
+    console.log(jwttoken)
     return res
       .status(200)
       .json({ message: "Successfully verified", token : jwttoken,type:"user"});
@@ -209,20 +210,19 @@ const verifyotp = async (req, res) => {
 
 
 const resendotp = async (req, res) => {
-  // try{
-  //   let {userId, email} = req.body;
-  //   if(!userId || !email){
-  //     throw Error("Empty otp details are not allowed");
-  //   }
-  //   else{
-  //     await UserOTPVerification.deleteOne({userId});
-  //     sendOTPVerificationEmail({_id: userId, email}, res);
-  //   }
-  // }catch(err){
-  //   res.status(500).json({
-  //     status: "failed",
-  //     message: err.message
-  //   })
-  // }
+  try{
+    let {userId, email} = req.body;
+    if(!userId || !email){
+      throw Error("Empty otp details are not allowed");
+    }
+    else{
+      sendOTPVerificationEmail({_id: userId, email}, res);
+    }
+  }catch(err){
+    res.status(500).json({
+      status: "failed",
+      message: err.message
+    })
+  }
 };
 module.exports = { login, signup, verifyotp, resendotp};
