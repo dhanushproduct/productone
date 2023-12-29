@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import currentrole from "../../asserts/Currentrole";
 import { useNavigate ,useParams} from "react-router-dom";
 import axios from "axios";
+import ReLogin from "../../pages/ReLogin";
 
 export default function Profile7({ formdetails }) {
 
-  const {id} = useParams();
+  const token = localStorage.getItem("token");
+  
   const [selectedRole, setSelectedRole] = useState("");
   const navigate = useNavigate();
   const handleRoleChange = (event) => {
@@ -20,13 +22,13 @@ export default function Profile7({ formdetails }) {
         currentRole : selectedRole
       }
     try{
-      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${token}`,reqbody);
       console.log(response)
       if(response.status == 200){
         console.log(response.body);
         // Navigate to the next page or wherever you want
         // navigate(`/profile/page7/${id}`);     
-        navigate(`/profile/page8/${id}`);
+        navigate(`/profile/page8/${token}`);
        }
     }catch(err){
       console.log(err);
@@ -36,6 +38,9 @@ export default function Profile7({ formdetails }) {
     }
   };
 
+  if(token==null){
+    return <ReLogin/>
+  }else{
   return (
     <div>
       <div className="h-1 w-full flex">
@@ -74,4 +79,5 @@ export default function Profile7({ formdetails }) {
       </div>
     </div>
   );
+   }
 }

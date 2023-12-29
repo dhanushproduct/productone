@@ -5,11 +5,13 @@ const jwt = require('jsonwebtoken');
 const editprofile = async (req, res) => {
   try {
     const details = req.body;
-    const id = req.params.id;
+    const token = req.params.token;
+    const decoded = jwt.verify(token,process.env.USER_SECRET_KEY);
+    console.log("Decoded",decoded);
     const key = Object.keys(details)[0];
     console.log(key);
     var updatedUser;
-    updatedUser = await Profile.updateOne({ UserId: id }, details);
+    updatedUser = await Profile.updateOne({ UserId: decoded._id }, details);
 
     if (updatedUser.nModified === 0) {
       return res.status(404).json({ message: "User not found", id: id });

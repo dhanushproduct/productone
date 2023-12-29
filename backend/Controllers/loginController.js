@@ -16,66 +16,67 @@ const { ObjectId } = mongoose.Types;
 
 function createEmptyEducation() {
   return {
-    levelofedu: "1",
-    field: "1",
-    school: "1",
-    city: "1",
-    country: "1",
-    fromMonth: "1",
-    fromYear: "1",
+    levelofedu: " ",
+    field: " ",
+    school: " ",
+    city: " ",
+    country: " ",
+    fromMonth: " ",
+    fromYear: " ",
   };
 }
 
 function createEmptyJob() {
   return {
-    jobTitle: "1",
-    company: "1",
-    country: "1",
-    city: "1",
-    fromMonth: "1",
-    fromYear: "1",
-    description: "1",
-    toMonth: "1",
-    toYear: "1",
+    jobTitle: " ",
+    company: " ",
+    country: " ",
+    city: " ",
+    fromMonth: " ",
+    fromYear: " ",
+    description: " ",
+    toMonth: " ",
+    toYear: " ",
   };
 }
 
 function createEmptySurvey() {
   return {
-    gender: "1",
-    race: {
-      isAsian: true,
-      isPacific: false,
-      isBlack: false,
-      isWhite: false,
-      isLatinx: false,
-      isNotListed: false,
-      isNativeAmerican: false,
+    "What is your gender identity?": "male",
+    "What is your race? (Select all that apply)": {
+      "Asian": true,
+      "Native Hawaiian or Pacific Islander": false,
+      "Black or African American": false,
+      "White": false,
+      "Hispanic or Latinx": false,
+      "Not listed": false,
+      "Native American or Alaskan Native": false,
     },
-    sex: "1",
-    age: "1",
-    militarystatus: "1",
+    "What is your sexual orientation?": " ",
+    "What is your age range?": " ",
+    "What is your military status?": " ",
   };
 }
+
 
 function createEmptyProfile(userId) {
   return {
     UserId: userId,
     FullName: {
-      FirstName: "1",
-      LastName: "1",
+      FirstName: " ",
+      LastName: " ",
     },
     Location: {
-      Country: "1",
-      StreetAddress: "1",
-      City: "1",
-      PinCode: "1",
+      Country: " ",
+      StreetAddress: " ",
+      City: " ",
+      PinCode: " ",
     },
     education: [createEmptyEducation()],
     jobs: [createEmptyJob()],
-    skills: ["asdhas"],
-    currentRole: "1",
-    WorkLocation: ["ashs"],
+    skills: [" "],
+    currentRole: " ",
+    WorkLocation: [" "],
     Survey: createEmptySurvey(),
   };
 }
@@ -192,7 +193,7 @@ const verifyotp = async (req, res) => {
     // Save the new profile
     await newProfile.save();
 
-    let jwttoken = jwt.sign(newUser, process.env.USER_SECRET_KEY, { expiresIn: '2h' });
+    let jwttoken = jwt.sign(newUser.toObject(), process.env.USER_SECRET_KEY, { expiresIn: '2h' });
 
     return res
       .status(200)

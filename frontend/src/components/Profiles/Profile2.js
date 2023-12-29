@@ -1,11 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate,useParams} from "react-router-dom"
+import ReLogin from "../../pages/ReLogin";
 import axios from "axios";
 
 export default function Profile2({formdetails}) {
 
-  const {id} = useParams();
+  const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
   const {
@@ -17,20 +18,25 @@ export default function Profile2({formdetails}) {
     formdetails.FullName = data;
     console.log(data);
     const reqbody = {
-      FullName : data
+      FullName : data,
     }
     try{
-      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${token}`,reqbody);
       console.log(response)
       if(response.status == 200){
         // console.log(response.body);
-        navigate(`/profile/page3/${id}`)
+        navigate(`/profile/page3/${token}`)
       }
     }catch(err){
       console.log(err);
     }
     window.scroll(0, 0)
   };
+
+  if(token==null){
+    return <ReLogin/>
+  }
+  else{
   return (
     <div>
       <div className=" h-1 w-full flex">
@@ -83,4 +89,5 @@ export default function Profile2({formdetails}) {
       </div>
     </div>
   );
+  }
 }

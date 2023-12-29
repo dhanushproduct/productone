@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams} from "react-router-dom";
 import countryData from "../../asserts/Countrylist";
+import ReLogin from "../../pages/ReLogin";
 import axios from "axios";
 
 export default function Profile3({formdetails}) {
 
-  const {id} = useParams();
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -23,11 +24,11 @@ export default function Profile3({formdetails}) {
       Location : data
     }
     try{
-      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${token}`,reqbody);
       console.log(response)
       if(response.status == 200){
         console.log(response.body);
-        navigate(`/profile/page4/${id}`);
+        navigate(`/profile/page4/${token}`);
       }
     }catch(err){
       console.log(err);
@@ -35,6 +36,9 @@ export default function Profile3({formdetails}) {
     // console.log(data);
     window.scroll(0, 0)
   };
+  if(token==null){
+    return <ReLogin/>
+  }else{
   return (
     <div>
       <div className=" h-1 w-full flex">
@@ -120,4 +124,5 @@ export default function Profile3({formdetails}) {
       </div>
     </div>
   );
+  }
 }

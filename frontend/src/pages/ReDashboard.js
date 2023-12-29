@@ -6,6 +6,7 @@ export default function ReDashboard() {
   const navigate = useNavigate()
   
   const handleLogin = () => {
+    navigate(`/dashboard/${localStorage.getItem("token")}`)
     if(localStorage.getItem("type") == "user"){
         navigate(`/dashboard/${localStorage.getItem("token")}`)
     }

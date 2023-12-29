@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import surveyQuestions from "../../asserts/VolDec";
 import { useNavigate,useParams } from "react-router-dom";
 import axios from "axios";
+import ReLogin from "../../pages/ReLogin";
 
 export default function Profile9({ formdetails }) {
-  const {id} = useParams();
+
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const {
     register,
@@ -28,12 +30,12 @@ export default function Profile9({ formdetails }) {
     }
     console.log(data) 
     try{
-      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${token}`,reqbody);
       console.log(response)
       if(response.status == 200){
         console.log(response.body);
         // Navigate to the next page or wherever you want
-        navigate(`/dashboard/${id}`)
+        navigate(`/dashboard/${token}`)
        }
     }catch(err){
       console.log(err);
@@ -42,6 +44,9 @@ export default function Profile9({ formdetails }) {
     // console.log(data);
   };
 
+  if(token==null){
+    return <ReLogin/>
+  }else{
   return (
     <div>
       <div className="h-1 w-full flex">
@@ -144,4 +149,5 @@ export default function Profile9({ formdetails }) {
       </div>
     </div>
   );
+ }
 }
