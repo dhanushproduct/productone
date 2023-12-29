@@ -32,6 +32,7 @@ function Userloginstore({ children }) {
           // const hashedIdWithoutSlashes = hashedId.replace(/\//g, '');
 
           // Store the hashed ID in local storage
+          toast.success("Login successfull!!")
           navigate(`/dashboard/${token}`);
         }
       })
@@ -39,17 +40,17 @@ function Userloginstore({ children }) {
         if (err.response) {
           if (err.response.status == 404) {
             // toast('Enter correct mail id')
-            toast("Enter correct mail id");
+            toast.error("Enter correct mail id");
           } else if (err.response.status == 401) {
             // toast('Enter correct password')
-            toast("Enter correct password");
+            toast.error("Enter correct password");
           } else {
             // toast('Login Error')
-            toast("Login error");
+            toast.error("Login error");
             setloginerror(err.response.data.message);
           }
         } else {
-          toast("Unexpected Error");
+          toast.error("Unexpected Error");
         }
       });
   };
@@ -74,17 +75,17 @@ function Userloginstore({ children }) {
         .catch((err) => {
           if (err.response) {
             if (err.response.status == 401) {
-              toast("Account with this mail id already exists");
+              toast.warn("Account with this mail id already exists");
             } else {
-              toast(err.response.data.message);
+              toast.error(err.response.data.message);
               setloginerror(err.response.data.message);
             }
           } else {
-            toast("Unexpected Error");
+            toast.error("Unexpected Error");
           }
         });
     } else {
-      toast("Enter Correct OTP");
+      toast.error("Enter Correct OTP");
     }
   };
 
@@ -101,7 +102,6 @@ function Userloginstore({ children }) {
           console.log(response.data);
           setOtp(response.data.otp);
           toast.success("OTP successfully sent");
-
           return response.data;
         }
       })
@@ -114,7 +114,7 @@ function Userloginstore({ children }) {
             setloginerror(err.response.data.message);
           }
         } else {
-          toast("Unexpected Error");
+          toast.error("Unexpected Error");
         }
       });
   };
@@ -154,10 +154,10 @@ function Userloginstore({ children }) {
       });
   };
   const Logoutuser = () => {
+    toast.success("You have succesfully logged out");
     localStorage.clear();
     setUserloginStatus(false);
     navigate("/");
-    toast("You have succesfully logged out");
   };
   return (
     <logincontext.Provider

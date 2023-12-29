@@ -210,20 +210,19 @@ const verifyotp = async (req, res) => {
 
 
 const resendotp = async (req, res) => {
-  // try{
-  //   let {userId, email} = req.body;
-  //   if(!userId || !email){
-  //     throw Error("Empty otp details are not allowed");
-  //   }
-  //   else{
-  //     await UserOTPVerification.deleteOne({userId});
-  //     sendOTPVerificationEmail({_id: userId, email}, res);
-  //   }
-  // }catch(err){
-  //   res.status(500).json({
-  //     status: "failed",
-  //     message: err.message
-  //   })
-  // }
+  try{
+    let {userId, email} = req.body;
+    if(!userId || !email){
+      throw Error("Empty otp details are not allowed");
+    }
+    else{
+      sendOTPVerificationEmail({_id: userId, email}, res);
+    }
+  }catch(err){
+    res.status(500).json({
+      status: "failed",
+      message: err.message
+    })
+  }
 };
 module.exports = { login, signup, verifyotp, resendotp};

@@ -16,7 +16,7 @@ export default function ReDashboard() {
   }
   return (
    <div className='h-[80vh] w-full flex justify-center items-center'>
-    <img src={error} alt="" className='md:h-screen opacity-20 absolute -z-100' />
+    <img src={error} alt="" className='md:h-[90%] opacity-20 absolute -z-100' />
     <div className='flex flex-col h-full w-full justify-center items-center gap-6 z-0'>
       <div className='md:text-5xl text-2xl font-semibold'>You have already logged in!!</div>
       <div className='md:text-3xl text-lg text-center'> Click on the below button to redirect to Dashboard</div>
