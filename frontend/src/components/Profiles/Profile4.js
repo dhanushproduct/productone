@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import countryData from "../../asserts/Countrylist";
 import Months from "../../asserts/Months";
 import { useNavigate,useParams} from "react-router-dom"
+import ReLogin from "../../pages/ReLogin";
 import axios from "axios";
 
 export default function Profile4({formdetails}) {
-  const {id} = useParams();
+
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const {
     register,
@@ -46,18 +48,18 @@ export default function Profile4({formdetails}) {
       education : formdetails.education
     }
     try{
-      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${token}`,reqbody);
       console.log(response)
       if(response.status == 200){
         console.log(response.body);
-        navigate(`/profile/page4/${id}`);
+        navigate(`/profile/page4/${token}`);
       }
     }catch(err){
       console.log(err);
     }
 
     // console.log(formdetails);
-    navigate(`/profile/education-review/${id}`);
+    navigate(`/profile/education-review/${token}`);
     window.scroll(0, 0)
   
   }
@@ -67,6 +69,10 @@ export default function Profile4({formdetails}) {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedtoMonth, setSelectedtoMonth] = useState("");
   const [selectedtoYear, setSelectedtoYear] = useState("");
+
+  if(token==null){
+    return <ReLogin/>
+  }else{
   return (
     <div>
       <div>
@@ -255,4 +261,5 @@ export default function Profile4({formdetails}) {
       </div>
     </div>
   );
+  }
 }

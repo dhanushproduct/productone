@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import skills from "../../asserts/Skills";
 import { GrAdd } from "react-icons/gr";
 import { useNavigate ,useParams} from "react-router-dom";
+import ReLogin from "../../pages/ReLogin";
 import { ImBin } from "react-icons/im";
 import axios from "axios";
 
 export default function Profile6({ formdetails }) {
 
-  const {id} = useParams();
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const submitbut = async () => {
-    navigate(`/profile/page7/${id}`);
+    navigate(`/profile/page7/${token}`);
     // formdetails.skills = skil;
     // console.log(formdetails);
     const reqbody = {
@@ -18,12 +19,12 @@ export default function Profile6({ formdetails }) {
     }
 
     try{
-      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${id}`,reqbody);
+      const response = await axios.post(`http://localhost:4000/api/profile/editprofile/${token}`,reqbody);
       console.log(response)
       if(response.status == 200){
         console.log(response.body);
         // Navigate to the next page or wherever you want
-        navigate(`/profile/page7/${id}`);     
+        navigate(`/profile/page7/${token}`);     
        }
     }catch(err){
       console.log(err);
@@ -61,6 +62,9 @@ export default function Profile6({ formdetails }) {
     handleAddNewSkill();
   };
 
+  if(token==null){
+    return <ReLogin/>
+  }else{
   return (
     <div>
       <div className="h-1 w-full flex">
@@ -132,4 +136,5 @@ export default function Profile6({ formdetails }) {
       </div>
     </div>
   );
+  }
 }

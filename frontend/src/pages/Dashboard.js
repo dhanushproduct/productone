@@ -7,6 +7,7 @@ import Projects from "../components/Projects";
 import { Button } from "keep-react";
 import { FaPlus, FaRegPaperPlane } from "react-icons/fa6";
 import { useParams ,useNavigate} from "react-router-dom";
+import ReLogin from "./ReLogin";
 import axios from "axios";
 import Education from "../components/Education";
 
@@ -15,33 +16,33 @@ const Layout = () => {
   const [eduedit, seteduedit] = useState(false);
   function createEmptyEducation() {
     return {
-      levelofedu: "1",
-      field: "1",
-      school: "1",
-      city: "1",
-      country: "1",
-      fromMonth: "1",
-      fromYear: "1",
+      levelofedu: " ",
+      field: " ",
+      school: " ",
+      city: " ",
+      country: " ",
+      fromMonth: " ",
+      fromYear: " ",
     };
   }
 
   function createEmptyJob() {
     return {
-      jobTitle: "1",
-      company: "1",
-      country: "1",
-      city: "1",
-      fromMonth: "1",
-      fromYear: "1",
-      description: "1",
-      toMonth: "1",
-      toYear: "1",
+      jobTitle: " ",
+      company: " ",
+      country: " ",
+      city: " ",
+      fromMonth: " ",
+      fromYear: " ",
+      description: " ",
+      toMonth: " ",
+      toYear: " ",
     };
   }
 
   function createEmptySurvey() {
     return {
-      gender: "1",
+      gender: " ",
       race: {
         isAsian: false,
         isPacific: false,
@@ -51,9 +52,9 @@ const Layout = () => {
         isNotListed: false,
         isNativeAmerican: false,
       },
-      sex: "1",
-      age: "1",
-      militarystatus: "1",
+      sex: " ",
+      age: " ",
+      militarystatus: " ",
     };
   }
 
@@ -78,7 +79,7 @@ const Layout = () => {
     };
   }
   const [dash, setdash] = useState(createEmptyProfile);
-  const { id } = useParams();
+  
   const token = localStorage.getItem("token")
   console.log(token);
   const navigate = useNavigate();
@@ -99,10 +100,15 @@ const Layout = () => {
   
     getprofile();
     console.log("working");
-  }, [id, token]);
+  }, [token]);
   
+  const handleEditProfile = () =>{
+      navigate(`/profile/page2/${token}`);
+  }
 
-
+  if(token==null){
+    return <ReLogin/>
+  }else{
   return (
     <div className="flex md:flex-row flex-col justify-around  min-h-screen  gap-4 bg-gray-100 p-4">
       <div className=" rounded-md md:w-[65%] w-[100%] ">
@@ -129,6 +135,11 @@ const Layout = () => {
             <Button size="sm" color="info" pill={true}>
               <div className="flex gap-1 justify-center items-center">
                 <FaPlus size={15} /> <p className="text-lg">Follow</p>
+              </div>
+            </Button>
+            <Button size="sm" color="info" pill={true} onClick={handleEditProfile}>
+              <div className="flex gap-1 justify-center items-center">
+                <FaPlus size={15} /> <p className="text-lg">Edit</p>
               </div>
             </Button>
             {/* <Button size="sm"  color="info" pill={true}>
@@ -216,6 +227,7 @@ const Layout = () => {
       <div className="md:w-[20%] w-[100%] h-full bg-gray-100  rounded-xl"></div>
     </div>
   );
+            }
 };
 
 export default Layout;
